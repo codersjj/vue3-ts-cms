@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import globalRegistry from './global'
+import { globalRegistry } from './global'
 
 import App from './App.vue'
 
