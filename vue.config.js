@@ -8,8 +8,5 @@ module.exports = {
     config.resolve.alias
       .set('@', path.resolve(__dirname, 'src'))
       .set('components', '@/components')
-  },
-  configureWebpack: {
-    plugins: [require('unplugin-element-plus/webpack').default()]
   }
 }
