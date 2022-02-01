@@ -1,27 +1,9 @@
 import { App } from 'vue'
-import {
-  ElButton,
-  ElAlert,
-  ElAside,
-  ElForm,
-  ElFormItem,
-  ElInput,
-  ElRadio
-} from 'element-plus'
-
-const components = [
-  ElButton,
-  ElAlert,
-  ElAside,
-  ElForm,
-  ElFormItem,
-  ElInput,
-  ElRadio
-]
+import registerElementPlus from './register-element-plus'
 
 export function registerApp(app: App): void {
-  // 全局注册 ElButton 等组件
-  for (const component of components) {
-    app.component(component.name, component)
-  }
+  // 注册 ElementPlus 中的组件
+  registerElementPlus(app)
+
+  // 注册其它东西
 }
