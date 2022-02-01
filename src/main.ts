@@ -1,8 +1,6 @@
 import { createApp } from 'vue'
 
 import { ElButton } from 'element-plus'
-import 'element-plus/theme-chalk/base.css'
-import 'element-plus/theme-chalk/el-button.css'
 
 import App from './App.vue'
 
