@@ -1,4 +1,5 @@
 const path = require('path')
+const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
 
 module.exports = {
   // 配置方式一：使用 Vue CLI 提供的属性
@@ -10,6 +11,13 @@ module.exports = {
       .set('components', '@/components')
   },
   configureWebpack: {
-    plugins: [require('unplugin-element-plus/webpack').default()]
+    plugins: [
+      require('unplugin-auto-import/webpack')({
+        resolvers: [ElementPlusResolver()]
+      }),
+      require('unplugin-vue-components/webpack')({
+        resolvers: [ElementPlusResolver()]
+      })
+    ]
   }
 }
