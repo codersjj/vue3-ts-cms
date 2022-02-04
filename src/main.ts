@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 
 import './service/axios_demo'
-import { BASE_URL, VUE_APP_NAME } from './service/request/config'
 
 import App from './App.vue'
 
@@ -13,4 +12,4 @@ app.use(router)
 app.use(store)
 app.mount('#app')
 
-console.log(BASE_URL, VUE_APP_NAME)
+console.log(process.env.VUE_APP_BASE_URL, process.env.VUE_APP_BASE_NAME)
