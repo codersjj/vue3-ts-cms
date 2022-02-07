@@ -1,12 +1,14 @@
+import axios from 'axios'
+import type { AxiosInstance, AxiosRequestConfig } from 'axios'
 class JJRequest {
-  request() {
-    // ...
+  instance: AxiosInstance
+  constructor(config: AxiosRequestConfig) {
+    this.instance = axios.create(config)
   }
-  get() {
-    // ...
-  }
-  post() {
-    // ...
+  request(config: AxiosRequestConfig): void {
+    this.instance.request(config).then((res) => {
+      console.log(res)
+    })
   }
 }
 

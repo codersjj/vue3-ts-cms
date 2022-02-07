@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 
-import './service/axios_demo'
+// import './service/axios_demo'
 import jjRequest from './service'
 
 import App from './App.vue'
@@ -15,5 +15,7 @@ app.mount('#app')
 
 console.log(process.env.VUE_APP_BASE_URL, process.env.VUE_APP_BASE_NAME)
 
-jjRequest.request()
-jjRequest.get()
+jjRequest.request({
+  url: '/home/multidata',
+  method: 'GET'
+})

@@ -6,17 +6,14 @@
 // 测试环境：test
 
 let BASE_URL = ''
-let VUE_APP_NAME = ''
+const TIME_OUT = 10000
 
 if (process.env.NODE_ENV === 'development') {
-  BASE_URL = 'http://coderzhj.org/dev'
-  VUE_APP_NAME = 'coderzhj'
+  BASE_URL = 'http://123.207.32.32:8000/'
 } else if (process.env.NODE_ENV === 'production') {
   BASE_URL = 'http://coderzhj.org/prod'
-  VUE_APP_NAME = 'coderwy'
 } else {
   BASE_URL = 'http://coderzhj.org/test'
-  VUE_APP_NAME = 'coderzgq'
 }
 
-export { BASE_URL, VUE_APP_NAME }
+export { BASE_URL, TIME_OUT }
