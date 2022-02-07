@@ -1,16 +1,6 @@
 import axios from 'axios'
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
-
-interface JJRequestInterceptors {
-  requestInterceptor?: (config: AxiosRequestConfig) => AxiosRequestConfig
-  requestInterceptorCatch?: (error: any) => any
-  responseInterceptor?: (res: AxiosResponse) => AxiosResponse
-  responseInterceptorCatch?: (error: any) => any
-}
-
-interface JJRequestConfig extends AxiosRequestConfig {
-  interceptors?: JJRequestInterceptors
-}
+import type { AxiosInstance, AxiosRequestConfig } from 'axios'
+import type { JJRequestInterceptors, JJRequestConfig } from './type'
 
 class JJRequest {
   instance: AxiosInstance
