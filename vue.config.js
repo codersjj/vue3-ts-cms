@@ -21,5 +21,8 @@ module.exports = {
         resolvers: [ElementPlusResolver()]
       })
     ]
+  },
+  devServer: {
+    proxy: 'http://localhost:8080'
   }
 }
