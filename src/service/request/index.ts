@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { AxiosInstance, AxiosRequestConfig } from 'axios'
+import type { AxiosInstance } from 'axios'
 import type { JJRequestInterceptors, JJRequestConfig } from './type'
 
 class JJRequest {
@@ -42,8 +42,14 @@ class JJRequest {
       }
     )
   }
-  request(config: AxiosRequestConfig): void {
+  request(config: JJRequestConfig): void {
+    if (config.interceptors?.requestInterceptor) {
+      config = config.interceptors.requestInterceptor(config)
+    }
     this.instance.request(config).then((res) => {
+      if (config.interceptors?.responseInterceptor) {
+        res = config.interceptors.responseInterceptor(res)
+      }
       console.log(res)
     })
   }
