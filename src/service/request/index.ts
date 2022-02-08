@@ -34,10 +34,19 @@ class JJRequest {
     this.instance.interceptors.response.use(
       (res) => {
         console.log('所有 axios 实例都有的拦截器：响应成功的拦截')
-        return res
+        const data = res.data
+        if (data.returnCode === '-1001') {
+          console.log('请求失败~，错误信息...')
+        } else {
+          return data
+        }
       },
       (err) => {
         console.log('所有 axios 实例都有的拦截器：响应失败的拦截')
+        // 判断不同的 HttpErrorCode 显示不同的错误信息
+        if (err.response.status === 404) {
+          console.log('404的错误~')
+        }
         return err
       }
     )
