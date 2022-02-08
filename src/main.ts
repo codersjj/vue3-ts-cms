@@ -32,6 +32,5 @@ console.log(process.env.VUE_APP_BASE_URL, process.env.VUE_APP_BASE_NAME)
 
 jjRequest.request({
   url: '/home/multidata',
-  method: 'GET',
-  showLoading: false
+  method: 'GET'
 })

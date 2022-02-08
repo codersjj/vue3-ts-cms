@@ -7,6 +7,8 @@ import { ElLoading } from 'element-plus'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-loading.css'
 
+const DEFAULT_LOADING = true
+
 class JJRequest {
   instance: AxiosInstance
   interceptors?: JJRequestInterceptors
@@ -15,7 +17,7 @@ class JJRequest {
 
   constructor(config: JJRequestConfig) {
     this.instance = axios.create(config)
-    this.showLoading = config.showLoading ?? true
+    this.showLoading = config.showLoading ?? DEFAULT_LOADING
     // 从 config 中取出的拦截器是对应的 axios 实例的拦截器
     this.interceptors = config.interceptors
     // 添加对应的 axios 实例所有的拦截器
@@ -53,9 +55,7 @@ class JJRequest {
         console.log('所有 axios 实例都有的拦截器：响应成功的拦截')
 
         // 将 loading 效果移除
-        setTimeout(() => {
-          this.loading?.close()
-        }, 1000)
+        this.loading?.close()
 
         const data = res.data
         if (data.returnCode === '-1001') {
@@ -83,9 +83,9 @@ class JJRequest {
       config = config.interceptors.requestInterceptor(config)
     }
 
-    if (config.showLoading === false) {
+    if (config.showLoading === !DEFAULT_LOADING) {
       // 将当前实例的 showLoading 设置为 false
-      this.showLoading = false
+      this.showLoading = !DEFAULT_LOADING
     }
 
     this.instance
@@ -98,11 +98,11 @@ class JJRequest {
 
         // 在拿到请求数据后，将当前实例的 showLoading 重新设置回默认值（constructor 中设置的 true），这样就不会影响下一个请求，
         // 不然的话如果之前某个请求中 config.showLoading 为 false，那么下一个请求中 this.showLoading 还会是 false
-        this.showLoading = true
+        this.showLoading = DEFAULT_LOADING
       })
       .catch((err) => {
         // 将 showLoading 设置为 true，这样不会影响下一个请求
-        this.showLoading = true
+        this.showLoading = DEFAULT_LOADING
         return err
       })
   }
