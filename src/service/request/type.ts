@@ -9,4 +9,5 @@ export interface JJRequestInterceptors {
 
 export interface JJRequestConfig extends AxiosRequestConfig {
   interceptors?: JJRequestInterceptors
+  showLoading?: boolean
 }
