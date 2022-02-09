@@ -16,11 +16,16 @@ class JJRequest {
   loading: any
 
   constructor(config: JJRequestConfig) {
+    // 创建 axios 实例
     this.instance = axios.create(config)
+
+    // 保存基本信息
     this.showLoading = config.showLoading ?? DEFAULT_LOADING
     // 从 config 中取出的拦截器是对应的 axios 实例的拦截器
     this.interceptors = config.interceptors
-    // 添加对应的 axios 实例所有的拦截器
+
+    // 使用拦截器
+    // 第一种：添加对应的 axios 实例所有的拦截器
     this.instance.interceptors.request.use(
       this.interceptors?.requestInterceptor,
       this.interceptors?.requestInterceptorCatch
@@ -30,7 +35,7 @@ class JJRequest {
       this.interceptors?.responseInterceptorCatch
     )
 
-    // 添加所有 axios 实例都有的拦截器
+    // 第二种：添加所有 axios 实例都有的拦截器
     this.instance.interceptors.request.use(
       (config) => {
         console.log('所有 axios 实例都有的拦截器：请求成功的拦截')
@@ -92,6 +97,7 @@ class JJRequest {
         this.showLoading = !DEFAULT_LOADING
       }
 
+      // 通过 this.instance 真正去发送请求
       this.instance
         .request<any, T>(config)
         .then((res) => {
@@ -114,6 +120,22 @@ class JJRequest {
           return err
         })
     })
+  }
+
+  get<T>(config: JJRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: 'GET' })
+  }
+
+  post<T>(config: JJRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: 'POST' })
+  }
+
+  delete<T>(config: JJRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: 'DELETE' })
+  }
+
+  patch<T>(config: JJRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: 'PATCH' })
   }
 }
 

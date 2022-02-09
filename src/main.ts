@@ -37,9 +37,8 @@ interface DataType {
 }
 
 jjRequest
-  .request<DataType>({
-    url: '/home/multidata',
-    method: 'GET'
+  .get<DataType>({
+    url: '/home/multidata'
   })
   .then((res) => {
     console.log(res.data)
