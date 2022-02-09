@@ -30,7 +30,19 @@ console.log(process.env.VUE_APP_BASE_URL, process.env.VUE_APP_BASE_NAME)
 //   }
 // })
 
-jjRequest.request({
-  url: '/home/multidata',
-  method: 'GET'
-})
+interface DataType {
+  data: any
+  returnCode: string
+  success: true
+}
+
+jjRequest
+  .request<DataType>({
+    url: '/home/multidata',
+    method: 'GET'
+  })
+  .then((res) => {
+    console.log(res.data)
+    console.log(res.returnCode)
+    console.log(res.success)
+  })

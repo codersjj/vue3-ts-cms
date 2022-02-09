@@ -78,33 +78,42 @@ class JJRequest {
       }
     )
   }
-  request(config: JJRequestConfig): void {
-    if (config.interceptors?.requestInterceptor) {
-      config = config.interceptors.requestInterceptor(config)
-    }
 
-    if (config.showLoading === !DEFAULT_LOADING) {
-      // 将当前实例的 showLoading 设置为 false
-      this.showLoading = !DEFAULT_LOADING
-    }
+  request<T>(config: JJRequestConfig): Promise<T> {
+    return new Promise((resolve, reject) => {
+      // 单个请求对请求 config 的处理
+      if (config.interceptors?.requestInterceptor) {
+        config = config.interceptors.requestInterceptor(config)
+      }
 
-    this.instance
-      .request(config)
-      .then((res) => {
-        if (config.interceptors?.responseInterceptor) {
-          res = config.interceptors.responseInterceptor(res)
-        }
-        console.log(res)
+      // 判断是否需要显示 loading
+      if (config.showLoading === !DEFAULT_LOADING) {
+        // 将当前实例的 showLoading 设置为默认值取反
+        this.showLoading = !DEFAULT_LOADING
+      }
 
-        // 在拿到请求数据后，将当前实例的 showLoading 重新设置回默认值（constructor 中设置的 true），这样就不会影响下一个请求，
-        // 不然的话如果之前某个请求中 config.showLoading 为 false，那么下一个请求中 this.showLoading 还会是 false
-        this.showLoading = DEFAULT_LOADING
-      })
-      .catch((err) => {
-        // 将 showLoading 设置为 true，这样不会影响下一个请求
-        this.showLoading = DEFAULT_LOADING
-        return err
-      })
+      this.instance
+        .request<any, T>(config)
+        .then((res) => {
+          // 单个请求对数据的处理
+          if (config.interceptors?.responseInterceptor) {
+            res = config.interceptors.responseInterceptor(res)
+          }
+
+          // 在拿到请求数据后，将当前实例的 showLoading 重新设置回默认值（constructor 中设置的 true），这样就不会影响下一个请求，
+          // 不然的话如果之前某个请求中 config.showLoading 为 false，那么下一个请求中 this.showLoading 还会是 false
+          this.showLoading = DEFAULT_LOADING
+
+          // 将结果 resolve 返回出去
+          resolve(res)
+        })
+        .catch((err) => {
+          // 将 showLoading 设置为 true，这样不会影响下一个请求
+          this.showLoading = DEFAULT_LOADING
+          reject(err)
+          return err
+        })
+    })
   }
 }
 
