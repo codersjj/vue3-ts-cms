@@ -63,6 +63,7 @@ class JJRequest {
         this.loading?.close()
 
         const data = res.data
+        // 这里其实可以封装一个 checkStatus() 方法，根据不同的错误在界面上显示不同的错误信息
         if (data.returnCode === '-1001') {
           console.log('请求失败~，错误信息...')
         } else {
@@ -75,7 +76,7 @@ class JJRequest {
         // 将 loading 效果移除
         this.loading?.close()
 
-        // 判断不同的 HttpErrorCode 显示不同的错误信息
+        // 判断不同的 HttpErrorCode 显示不同的错误信息，这里其实可以封装一个 checkStatus() 方法
         if (err.response.status === 404) {
           console.log('404的错误~')
         }
@@ -84,7 +85,7 @@ class JJRequest {
     )
   }
 
-  request<T>(config: JJRequestConfig): Promise<T> {
+  request<T>(config: JJRequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       // 单个请求对请求 config 的处理
       if (config.interceptors?.requestInterceptor) {
@@ -122,19 +123,19 @@ class JJRequest {
     })
   }
 
-  get<T>(config: JJRequestConfig): Promise<T> {
+  get<T>(config: JJRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'GET' })
   }
 
-  post<T>(config: JJRequestConfig): Promise<T> {
+  post<T>(config: JJRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'POST' })
   }
 
-  delete<T>(config: JJRequestConfig): Promise<T> {
+  delete<T>(config: JJRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'DELETE' })
   }
 
-  patch<T>(config: JJRequestConfig): Promise<T> {
+  patch<T>(config: JJRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'PATCH' })
   }
 }
