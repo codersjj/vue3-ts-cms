@@ -8,7 +8,7 @@
             <el-icon><user /></el-icon>账号登录
           </span>
         </template>
-        <h2>账号登录</h2>
+        <login-account />
       </el-tab-pane>
       <el-tab-pane label="手机登录">
         <template #label>
@@ -16,7 +16,7 @@
             <el-icon><cellphone /></el-icon>手机登录
           </span>
         </template>
-        <h2>手机登录</h2>
+        <login-phone />
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -25,11 +25,15 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { User, Cellphone } from '@element-plus/icons-vue'
+import LoginAccount from './login-account.vue'
+import LoginPhone from './login-phone.vue'
 
 export default defineComponent({
   components: {
     User,
-    Cellphone
+    Cellphone,
+    LoginAccount,
+    LoginPhone
   },
   setup() {
     return {}
@@ -39,6 +43,7 @@ export default defineComponent({
 
 <style scoped lang="less">
 .login-panel {
+  margin-bottom: 150px;
   width: 320px;
   .title {
     text-align: center;
