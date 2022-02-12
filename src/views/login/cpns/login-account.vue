@@ -1,6 +1,6 @@
 <template>
   <div class="login-account">
-    <el-form label-width="52px" :rules="rules" :model="account">
+    <el-form label-width="52px" :rules="rules" :model="account" ref="formRef">
       <el-form-item label="账号" prop="name">
         <el-input v-model="account.name" />
       </el-form-item>
@@ -12,7 +12,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
+// 虽然我们已经全局注册了 ElForm，但这里依然导入了 ElForm 是为了在下面 typeof ElForm 时引用一下 ElForm 以获取其类型
+import { ElForm } from 'element-plus'
+
+import { rules } from '../config/account-config'
 
 export default defineComponent({
   setup() {
@@ -22,37 +26,28 @@ export default defineComponent({
       password: ''
     })
 
-    // 编写验证规则
-    const rules = {
-      // name: [{针对 name 属性的规则1}, {针对 name 属性的规则2}],
-      // password: [{针对 password 属性的规则1}, {针对 password 属性的规则2}]
-      name: [
-        {
-          required: true,
-          message: '请输入账号~',
-          trigger: 'blur'
-        },
-        {
-          pattern: /^[a-z0-9]{5,10}$/,
-          message: '账号必须是5~10个字母或数字~',
-          trigger: 'blur'
+    const formRef = ref<InstanceType<typeof ElForm>>()
+
+    const loginAction = () => {
+      console.log('login-account 正在准备登录~')
+      // formRef.value 拿到上面 template 中的 ElForm 组件对象后再去调用该组件对象中的 validate() 方法，
+      // 用来对整个表单作验证。
+      // 该方法中会回调我们传入的这个函数，回调函数会包含两个参数：一个布尔值，表示表单验证是否通过；一个对象，包含所有未通过验证的字段。
+      formRef.value?.validate((valid) => {
+        if (valid) {
+          console.log('真正开始执行登录逻辑...')
         }
-      ],
-      password: [
-        {
-          required: true,
-          message: '请输入密码~',
-          trigger: 'blur'
-        },
-        {
-          pattern: /^[a-z0-9]{3,}$/,
-          message: '密码必须是3位以上的字母或数字~',
-          trigger: 'blur'
-        }
-      ]
+      })
     }
 
-    return { account, rules }
+    // 注意：虽然在 setup() 中没有再去使用 rules，但这里依然需要把 rules 给 return 出去，这样才能在 template 中使用
+    // 在 template 中能用的东西必须是在 data/computed/props 中的，或者在 setup() 返回的对象中的
+    return {
+      account,
+      rules,
+      loginAction,
+      formRef
+    }
   }
 })
 </script>
