@@ -46,16 +46,15 @@ export default defineComponent({
   },
   setup() {
     const isKeepPassword = ref(true)
-    // 可以直接使用 ref()，这时会根据泛型自动推导出 any 类型，所以下面 accountRef.value 的类型就成了 any 类型，再去调用 loginAction() 就不会编译报错。但这样做就缺失了类型检测，因此不建议这样做。
+    // 可以直接使用 ref()，这时虽然没有初始化值，但会根据泛型自动推导出 any 类型，所以下面 accountRef.value 的类型就成了 any 类型，再去调用 loginAction() 就不会编译报错。但这样做就缺失了类型检测，那么在调用方法时，方法名写错了编译阶段也不会报错，这不安全，因此不建议这样做。
     // const accountRef = ref()
     // typeof LoginAccount 获取 LoginAccount 组件导出的对象的类型
     // InstanceType<typeof LoginAccount> 获取 LoginAccount 组件导出的对象真正的类型（构造函数类型的返回类型）
     const accountRef = ref<InstanceType<typeof LoginAccount>>()
 
     const handleLoginClick = () => {
-      console.log('点击了立即登录')
       // accountRef.value 拿到 LoginAccount 组件对象后再去调用该组件对象中的 loginAction() 方法
-      accountRef.value?.loginAction()
+      accountRef.value?.loginAction(isKeepPassword.value)
     }
 
     return { isKeepPassword, handleLoginClick, accountRef }
