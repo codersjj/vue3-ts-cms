@@ -13,6 +13,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
+import { useStore } from 'vuex'
 // 虽然我们已经全局注册了 ElForm，但这里依然导入了 ElForm 是为了在下面 typeof ElForm 时引用一下 ElForm 以获取其类型
 import { ElForm } from 'element-plus'
 import localCache from '@/utils/cache'
@@ -21,6 +22,8 @@ import { rules } from '../config/account-config'
 
 export default defineComponent({
   setup() {
+    const store = useStore()
+
     // 因为账号和密码联系比较紧密，所以这里我们选择使用 reactive
     const account = reactive({
       name: localCache.getCache('name') ?? '',
@@ -44,7 +47,9 @@ export default defineComponent({
             localCache.removeCache('name')
             localCache.removeCache('password')
           }
+
           // 2. 开始进行登录验证
+          store.dispatch('login/accountLoginAction', { ...account })
         }
       })
     }
