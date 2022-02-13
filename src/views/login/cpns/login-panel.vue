@@ -1,8 +1,13 @@
 <template>
   <div class="login-panel">
     <h1 class="title">后台管理系统</h1>
-    <el-tabs type="border-card" class="login-panel-tabs" stretch>
-      <el-tab-pane>
+    <el-tabs
+      type="border-card"
+      class="login-panel-tabs"
+      stretch
+      v-model="currentTab"
+    >
+      <el-tab-pane name="account">
         <template #label>
           <span>
             <el-icon><user /></el-icon>账号登录
@@ -10,13 +15,13 @@
         </template>
         <login-account ref="accountRef" />
       </el-tab-pane>
-      <el-tab-pane label="手机登录">
+      <el-tab-pane name="phone">
         <template #label>
           <span>
             <el-icon><cellphone /></el-icon>手机登录
           </span>
         </template>
-        <login-phone />
+        <login-phone ref="phoneRef" />
       </el-tab-pane>
     </el-tabs>
 
@@ -45,19 +50,28 @@ export default defineComponent({
     LoginPhone
   },
   setup() {
+    // 1. 定义属性
     const isKeepPassword = ref(true)
-    // 可以直接使用 ref()，这时虽然没有初始化值，但会根据泛型自动推导出 any 类型，所以下面 accountRef.value 的类型就成了 any 类型，再去调用 loginAction() 就不会编译报错。但这样做就缺失了类型检测，那么在调用方法时，方法名写错了编译阶段也不会报错，这不安全，因此不建议这样做。
-    // const accountRef = ref()
-    // typeof LoginAccount 获取 LoginAccount 组件导出的对象的类型
-    // InstanceType<typeof LoginAccount> 获取 LoginAccount 组件导出的对象真正的类型（构造函数类型的返回类型）
     const accountRef = ref<InstanceType<typeof LoginAccount>>()
+    const phoneRef = ref<InstanceType<typeof LoginPhone>>()
+    const currentTab = ref('account')
 
+    // 2. 定义方法
     const handleLoginClick = () => {
-      // accountRef.value 拿到 LoginAccount 组件对象后再去调用该组件对象中的 loginAction() 方法
-      accountRef.value?.loginAction(isKeepPassword.value)
+      if (currentTab.value === 'account') {
+        accountRef.value?.loginAction(isKeepPassword.value)
+      } else {
+        console.log('phoneRef 调用 loginAction')
+      }
     }
 
-    return { isKeepPassword, handleLoginClick, accountRef }
+    return {
+      isKeepPassword,
+      accountRef,
+      phoneRef,
+      currentTab,
+      handleLoginClick
+    }
   }
 })
 </script>
