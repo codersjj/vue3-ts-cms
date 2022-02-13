@@ -63,6 +63,20 @@ const loginModule: Module<ILoginState, IRootState> = {
     // 手机登录
     phoneLoginAction({ commit }, payload: any) {
       console.log('执行 phoneLoginAction', payload)
+    },
+    loadLocalLogin({ commit }) {
+      const token = localCache.getCache('token')
+      if (token) {
+        commit('changeToken', token)
+      }
+      const userInfo = localCache.getCache('userInfo')
+      if (userInfo) {
+        commit('changeUserInfo', userInfo)
+      }
+      const userMenus = localCache.getCache('userMenus')
+      if (userMenus) {
+        commit('changeUserMenus', userMenus)
+      }
     }
   }
 }
