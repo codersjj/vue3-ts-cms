@@ -61,9 +61,9 @@ const loginModule: Module<ILoginState, IRootState> = {
       router.push('/main')
     },
     // 手机登录
-    phoneLoginAction({ commit }, payload: any) {
-      console.log('执行 phoneLoginAction', payload)
-    },
+    // phoneLoginAction({ commit }, payload: any) {
+    //   console.log('执行 phoneLoginAction', payload)
+    // },
     loadLocalLogin({ commit }) {
       const token = localCache.getCache('token')
       if (token) {
