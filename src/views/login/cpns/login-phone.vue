@@ -1,6 +1,6 @@
 <template>
   <div class="login-phone">
-    <el-form label-width="auto">
+    <el-form>
       <el-form-item label="手机号" prop="num">
         <el-input v-model="phone.num" />
       </el-form-item>
