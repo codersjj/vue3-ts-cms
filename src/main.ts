@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import { globalRegistry } from './global'
 import 'normalize.css'
 import './assets/css/index.less'
 
@@ -9,6 +10,7 @@ import store from './store'
 import { setupStore } from './store'
 
 const app = createApp(App)
+app.use(globalRegistry)
 app.use(router)
 app.use(store)
 
