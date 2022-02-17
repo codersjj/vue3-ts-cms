@@ -18,6 +18,7 @@
               </el-icon>
               <span>{{ item.name }}</span>
             </template>
+            <!-- 遍历子菜单 -->
             <template v-for="subItem in item.children" :key="subItem.id">
               <el-menu-item>
                 <el-icon v-if="subItem.icon">
@@ -44,11 +45,12 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { useStore } from 'vuex'
+import { useStore } from '@/store/index'
 
 export default defineComponent({
   setup() {
     const store = useStore()
+    // 使用自己封装的 useStore() 函数后，store.state 的类型就是我们自己定义的 IStoreType 类型了，而不是默认的 any 类型。这样就不会出现从 store.state 中取错属性的问题了。
     const userMenus = computed(() => store.state.login.userMenus)
 
     return { userMenus }
