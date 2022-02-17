@@ -6,7 +6,13 @@
       <span class="title">Vue3 + TS</span>
     </div>
     <!-- menu list -->
-    <el-menu default-active="1" class="el-menu-vertical">
+    <el-menu
+      default-active="39"
+      class="el-menu-vertical"
+      background-color="#001523"
+      text-color="#b7bdc3"
+      :unique-opened="false"
+    >
       <template v-for="item in userMenus" :key="item.id">
         <!-- 二级菜单（这里指可以展开的菜单） -->
         <template v-if="item.type === 1">
@@ -20,7 +26,7 @@
             </template>
             <!-- 遍历子菜单 -->
             <template v-for="subItem in item.children" :key="subItem.id">
-              <el-menu-item>
+              <el-menu-item :index="subItem.id + ''">
                 <el-icon v-if="subItem.icon">
                   <component :is="subItem.icon.substring(8)"></component>
                 </el-icon>
@@ -31,7 +37,7 @@
         </template>
         <!-- 一级菜单（这里指可以切换路由跳转到页面的菜单） -->
         <template v-else-if="item.type === 2">
-          <el-menu-item>
+          <el-menu-item :index="item.id + ''">
             <el-icon v-if="item.icon">
               <component :is="item.icon.substring(8)"></component>
             </el-icon>
@@ -90,13 +96,13 @@ export default defineComponent({
     // background-color: #001529;
     // 二级菜单（默认背景）
     .el-menu-item {
-      background-color: #7fa58a;
+      background-color: #0c2135;
       padding-left: 50px !important;
     }
   }
 
   ::v-deep .el-sub-menu__title {
-    background-color: #d7dfe6;
+    background-color: #001529 !important;
   }
 
   .el-menu-item:hover {
