@@ -7,7 +7,7 @@
     </div>
     <!-- menu list -->
     <el-menu default-active="1" class="el-menu-vertical">
-      <template v-for="item in $store.state.login.userMenus" :key="item.id">
+      <template v-for="item in userMenus" :key="item.id">
         <!-- 二级菜单（这里指可以展开的菜单） -->
         <template v-if="item.type === 1">
           <el-sub-menu :index="item.id + ''">
@@ -43,11 +43,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   setup() {
-    return {}
+    const store = useStore()
+    const userMenus = computed(() => store.state.login.userMenus)
+
+    return { userMenus }
   }
 })
 </script>
