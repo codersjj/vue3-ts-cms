@@ -3,14 +3,16 @@
     <!-- logo -->
     <div class="logo">
       <img class="img" src="~@/assets/img/logo.svg" alt="logo" />
-      <span class="title">Vue3 + TS</span>
+      <span v-if="!collapse" class="title">Vue3 + TS</span>
     </div>
     <!-- menu list -->
     <el-menu
       default-active="39"
       class="el-menu-vertical"
+      :collapse="collapse"
       background-color="#001523"
       text-color="#b7bdc3"
+      active-text-color="#0a60bd"
       :unique-opened="false"
     >
       <template v-for="item in userMenus" :key="item.id">
@@ -50,11 +52,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, toRefs } from 'vue'
 import { useStore } from '@/store/index'
 
 export default defineComponent({
-  setup() {
+  props: {
+    collapse: {
+      type: Boolean,
+      default: false
+    }
+  },
+  setup(props) {
+    const { collapse } = toRefs(props)
+    console.log(collapse.value)
+
     const store = useStore()
     // 使用自己封装的 useStore() 函数后，store.state 的类型就是我们自己定义的 IStoreType 类型了，而不是默认的 any 类型。这样就不会出现从 store.state 中取错属性的问题了。
     const userMenus = computed(() => store.state.login.userMenus)
@@ -89,6 +100,7 @@ export default defineComponent({
   }
 
   .el-menu {
+    // 去除右边框（调试技巧：将 el-aside 的 width 固定宽度后再折叠菜单，方便看到右边框）
     border-right: none;
   }
 
@@ -111,6 +123,7 @@ export default defineComponent({
 
   .el-menu-item.is-active {
     background-color: #0a60bd;
+    // 这里设置 color 会覆盖掉 el-menu 上 active-text-color 属性设置的值
     color: #fff;
   }
 }
@@ -119,5 +132,9 @@ export default defineComponent({
   // 包含块的高度减去 logo 区域的高度
   height: calc(100% - 48px);
   width: 100%;
+}
+
+.el-menu--collapse .el-sub-menu.is-active i {
+  color: #409eff;
 }
 </style>
