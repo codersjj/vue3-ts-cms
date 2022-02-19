@@ -89,13 +89,16 @@ export default defineComponent({
 
     .img {
       height: 100%;
-      margin: 0 10px;
+      margin: 0 10px 0 8px;
     }
 
     .title {
       color: white;
       font-size: 16px;
       font-weight: 700;
+      white-space: nowrap;
+      // text-overflow: ellipsis;
+      overflow: hidden;
     }
   }
 

@@ -54,7 +54,7 @@ export default defineComponent({
 
   .el-aside {
     background: #001529;
-    transition: width 0.3s linear;
+    transition: width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     cursor: pointer;
     // line-height: 200px;
     // overflow-x: hidden;
