@@ -12,7 +12,7 @@
       :collapse="collapse"
       background-color="#001523"
       text-color="#b7bdc3"
-      active-text-color="#0a60bd"
+      active-text-color="#62b0ff"
       :unique-opened="false"
     >
       <template v-for="item in userMenus" :key="item.id">
