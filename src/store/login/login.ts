@@ -35,9 +35,12 @@ const loginModule: Module<ILoginState, IRootState> = {
       state.userMenus = userMenus
 
       // 1. 将拿到的 userMenus 数据映射到 routes 中
-      mapMenusToRoutes(userMenus)
+      const routes = mapMenusToRoutes(userMenus)
 
       // 2. 将 routes 数据添加到 router.main.children 中
+      routes.forEach((route) => {
+        router.addRoute('main', route)
+      })
     }
   },
   actions: {

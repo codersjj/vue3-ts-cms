@@ -28,7 +28,10 @@
             </template>
             <!-- 遍历子菜单 -->
             <template v-for="subItem in item.children" :key="subItem.id">
-              <el-menu-item :index="subItem.id + ''">
+              <el-menu-item
+                :index="subItem.id + ''"
+                @click="handleMenuItemClick(subItem)"
+              >
                 <el-icon v-if="subItem.icon">
                   <component :is="subItem.icon.substring(8)"></component>
                 </el-icon>
@@ -52,8 +55,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, toRefs } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store/index'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   props: {
@@ -67,7 +71,15 @@ export default defineComponent({
     // 使用自己封装的 useStore() 函数后，store.state 的类型就是我们自己定义的 IStoreType 类型了，而不是默认的 any 类型。这样就不会出现从 store.state 中取错属性的问题了。
     const userMenus = computed(() => store.state.login.userMenus)
 
-    return { userMenus }
+    const router = useRouter()
+
+    const handleMenuItemClick = (menuItem: any) => {
+      router.push({
+        path: menuItem.url ?? '/not-found'
+      })
+    }
+
+    return { userMenus, handleMenuItemClick }
   }
 })
 </script>

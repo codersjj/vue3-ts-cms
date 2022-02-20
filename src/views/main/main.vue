@@ -8,7 +8,9 @@
         <el-header class="page-header">
           <nav-header @foldChange="handleFoldChange" />
         </el-header>
-        <el-main class="page-content">Main</el-main>
+        <el-main class="page-content">
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -68,13 +70,8 @@ export default defineComponent({
     }
   }
 
-  .page-header {
-    background: #f0f2f5;
-  }
-
   .page-content {
     height: calc(100% - 48px);
-    background: #888;
   }
 }
 
@@ -90,5 +87,6 @@ export default defineComponent({
 .el-main {
   text-align: center;
   color: #333;
+  background-color: #f0f2f5;
 }
 </style>

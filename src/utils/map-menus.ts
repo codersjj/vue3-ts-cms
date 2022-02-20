@@ -30,9 +30,25 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
     // const route = require('../router/main' + key.split('.')[1])
     allRoutes.push(route.default)
   })
-  console.log(allRoutes)
 
   // 2. 根据菜单获取需要添加的 routes
+  // 从 userMenus 中拿到菜单信息后，判断里面的 type 是否等于 2，如果等于 2，就进行添加，否则，就应该递归查询 children 中 type 等于 2 的菜单，再进行路由添加
+  // type === 1 -> children -> 继续往下判断 type
+  // type === 2 -> url -> route
+  // 在函数内部封装一个递归函数
+  const _recurseGetRoute = (menus: any[]) => {
+    for (const menu of menus) {
+      // type 为 2 的菜单才是本项目中用户点击之后需要进行路由映射的菜单
+      if (menu.type === 2) {
+        const route = allRoutes.find((route) => route.path === menu.url)
+        if (route) routes.push(route)
+      } else {
+        _recurseGetRoute(menu.children)
+      }
+    }
+  }
+
+  _recurseGetRoute(userMenus)
 
   return routes
 }
