@@ -10,11 +10,19 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/login',
+    name: 'Login',
     component: () => import('@/views/login/login.vue')
   },
   {
     path: '/main',
+    name: 'Main',
     component: () => import('@/views/main/main.vue')
+    // children: [] -> 根据 userMenus 来决定
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@/views/not-found/not-found.vue')
   }
 ]
 
@@ -23,7 +31,10 @@ const router = createRouter({
   history: createWebHashHistory()
 })
 
+// 全局前置守卫
 router.beforeEach((to) => {
+  // 也可以在这里（导航守卫中）动态生成路由，即在跳转到首页之前先做好映射关系，有了映射关系之后再跳转到首页
+
   // 不是登录页时根据本地缓存的 token 的有无判断是否需要登录
   if (to.path !== '/login') {
     const token = localCache.getCache('token')
