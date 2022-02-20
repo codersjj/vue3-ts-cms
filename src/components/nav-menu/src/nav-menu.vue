@@ -62,10 +62,7 @@ export default defineComponent({
       default: false
     }
   },
-  setup(props) {
-    const { collapse } = toRefs(props)
-    console.log(collapse.value)
-
+  setup() {
     const store = useStore()
     // 使用自己封装的 useStore() 函数后，store.state 的类型就是我们自己定义的 IStoreType 类型了，而不是默认的 any 类型。这样就不会出现从 store.state 中取错属性的问题了。
     const userMenus = computed(() => store.state.login.userMenus)

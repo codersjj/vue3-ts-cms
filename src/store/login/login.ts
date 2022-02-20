@@ -6,6 +6,7 @@ import {
   requestUserMenusByRoleId
 } from '@/service/login/login'
 import localCache from '@/utils/cache'
+import { mapMenusToRoutes } from '@/utils/map-menus'
 import router from '@/router'
 
 import { ILoginState } from './types'
@@ -30,7 +31,13 @@ const loginModule: Module<ILoginState, IRootState> = {
       state.userInfo = userInfo
     },
     changeUserMenus(state, userMenus: any) {
+      // 保存 userMenus 数据，数据来源：服务器（用户第一次登录时）或者本地的 localStorage
       state.userMenus = userMenus
+
+      // 1. 将拿到的 userMenus 数据映射到 routes 中
+      mapMenusToRoutes(userMenus)
+
+      // 2. 将 routes 数据添加到 router.main.children 中
     }
   },
   actions: {
