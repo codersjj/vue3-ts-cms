@@ -7,7 +7,7 @@
     </div>
     <!-- menu list -->
     <el-menu
-      default-active="39"
+      default-active="2"
       class="el-menu-vertical"
       :collapse="collapse"
       background-color="#001523"
