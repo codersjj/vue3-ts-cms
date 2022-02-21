@@ -1,7 +1,12 @@
 <template>
   <div class="user">
     <div class="search">
-      <jj-form :formItems="formItems" />
+      <jj-form
+        :formItems="formItems"
+        :labelWidth="labelWidth"
+        :itemStyle="itemStyle"
+        :colLayout="colLayout"
+      />
     </div>
   </div>
 </template>
@@ -53,7 +58,22 @@ export default defineComponent({
       }
     ]
 
-    return { formItems }
+    const labelWidth = '120px'
+
+    const itemStyle = {
+      padding: '20px 50px'
+    }
+
+    const colLayout = {
+      span: 8
+    }
+
+    return {
+      formItems,
+      labelWidth,
+      itemStyle,
+      colLayout
+    }
   }
 })
 </script>
