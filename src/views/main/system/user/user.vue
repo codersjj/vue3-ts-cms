@@ -1,45 +1,59 @@
 <template>
   <div class="user">
     <div class="search">
-      <el-form label-width="100px">
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="用户名">
-              <el-input />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="密码">
-              <el-input show-password />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="喜欢的运动">
-              <el-select style="width: 100%">
-                <el-option>跑步</el-option>
-                <el-option>游泳</el-option>
-                <el-option>乒乓球</el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="创建时间">
-              <el-date-picker style="width: 100%"></el-date-picker>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
+      <jj-form :formItems="formItems" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import JjForm, { IFormItem } from '@/base-ui/form'
 
 export default defineComponent({
   name: 'user',
+  components: {
+    JjForm
+  },
   setup() {
-    return {}
+    const formItems: IFormItem[] = [
+      {
+        type: 'input',
+        label: 'id',
+        placeholder: '请输入id'
+      },
+      {
+        type: 'input',
+        label: '用户名',
+        placeholder: '请输入用户名'
+      },
+      {
+        type: 'password',
+        label: '密码',
+        placeholder: '请输入密码'
+      },
+      {
+        type: 'select',
+        label: '喜欢的运动',
+        placeholder: '请选择喜欢的运动',
+        options: [
+          { value: 'basketball', text: '篮球' },
+          { value: 'football', text: '足球' },
+          { value: 'swimming', text: '游泳' }
+        ]
+      },
+      {
+        type: 'datepicker',
+        label: '创建时间',
+        otherOptions: {
+          type: 'daterange',
+          startPlaceholder: '开始时间',
+          endPlaceholder: '结束时间'
+        }
+      }
+    ]
+
+    return { formItems }
   }
 })
 </script>
