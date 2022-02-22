@@ -21,7 +21,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/:pathMatch(.*)*',
-    name: 'not-found',
+    name: 'notFound',
     component: () => import('@/views/not-found/not-found.vue')
   }
 ]
@@ -42,6 +42,10 @@ router.beforeEach((to) => {
       return '/login'
     }
   }
+
+  console.log(router.getRoutes())
+  // 如果没有返回任何东西，默认会跳转到 to 对应的 name 属性对应的路由对象的 component 中
+  console.log(to)
 })
 
 export default router
