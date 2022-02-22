@@ -34,6 +34,7 @@ const loginModule: Module<ILoginState, IRootState> = {
       // 保存 userMenus 数据，数据来源：服务器（用户第一次登录时）或者本地的 localStorage
       state.userMenus = userMenus
 
+      console.log('注册动态路由')
       // 1. 将拿到的 userMenus 数据映射到 routes 中
       const routes = mapMenusToRoutes(userMenus)
 

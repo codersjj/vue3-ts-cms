@@ -7,7 +7,7 @@
     </div>
     <!-- menu list -->
     <el-menu
-      default-active="2"
+      :default-active="defaultActive"
       class="el-menu-vertical"
       :collapse="collapse"
       background-color="#001523"
@@ -55,9 +55,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import { useStore } from '@/store/index'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import { mapPathToMenu } from '@/utils/map-menus'
 
 export default defineComponent({
   props: {
@@ -67,19 +68,28 @@ export default defineComponent({
     }
   },
   setup() {
+    // store
     const store = useStore()
     // 使用自己封装的 useStore() 函数后，store.state 的类型就是我们自己定义的 IStoreType 类型了，而不是默认的 any 类型。这样就不会出现从 store.state 中取错属性的问题了。
     const userMenus = computed(() => store.state.login.userMenus)
 
+    // router
     const router = useRouter()
+    const route = useRoute()
+    const currentPath = route.path
 
+    // data
+    const menu = mapPathToMenu(userMenus.value, currentPath)
+    const defaultActive = ref(menu.id + '')
+
+    // event handle
     const handleMenuItemClick = (menuItem: any) => {
       router.push({
         path: menuItem.url ?? '/not-found'
       })
     }
 
-    return { userMenus, handleMenuItemClick }
+    return { userMenus, defaultActive, handleMenuItemClick }
   }
 })
 </script>

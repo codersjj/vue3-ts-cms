@@ -52,3 +52,17 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
 
   return routes
 }
+
+export function mapPathToMenu(userMenus: any[], path: string): any {
+  for (const menu of userMenus) {
+    if (menu.type === 1) {
+      // menu.children 没有值时传空数组，防止递归时遍历 userMenus 时变成遍历 undefined
+      const findMenu = mapPathToMenu(menu.children ?? [], path)
+      if (findMenu) {
+        return findMenu
+      }
+    } else if (menu.type === 2 && menu.url === path) {
+      return menu
+    }
+  }
+}
