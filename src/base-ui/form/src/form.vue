@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed } from 'vue'
+import { defineComponent, PropType, ref, watch } from 'vue'
 import { IFormItem } from '../types'
 
 export default defineComponent({
@@ -87,20 +87,24 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
-    const formData = computed({
-      get: () => props.modelValue,
-      // 如果模板中的 v-model 绑定的是 formData 的某个属性，当这个属性发生改变的时候，set 方法是不会被调用的
-      // 所以这里的 set 方法不会被调用，因此里面的 emit() 也没有执行，即 update:modelValue 事件没有成功发送给父组件
-      // 但父组件却还是成功拿到了子组件表单中的输入内容，这是因为这里 formData 实际上还是拿到的 computed 的 get 返回的 props.modelValue 的引用，之后相当于还是把 props 的 modelValue 绑定到了模板中的 v-model 上，也就是说子组件中修改的其实还是父组件的 formData 对象。依然违背了单向数据流的设计原则。
-      // 因此，这里的 computed 相当于只设置了一个 getter，而没有 setter，这就意味着父组件中使用的 v-model="formData" 其实就相当于 :modelValue="formData" 了，也就是说并没有实现数据的双向绑定
-      set: (newValue) => {
+    // 注意：这里浅拷贝了一份 props.modelValue 对象，而不是直接引用 props.modelValue 对象，否则绑定的其实还是父组件中的那个对象，跟双向绑定就没有关系了，并且这样做到时候还是直接修改的这个父组件中对象的内容，这又违反了单向数据流的原则
+    const formData = ref({ ...props.modelValue })
+
+    // 使用 watch 自己来监听 formData 数据的改变，当数据发生改变时，通过 emit() 发送出去，这样就真正实现了双向绑定，而不是之前那样（方案一和方案二）通过引用修改
+    watch(
+      formData,
+      (newValue) => {
         console.log(
-          '🚀 ~ file: form.vue ~ line 92 ~ setup ~ newValue',
+          '🚀 ~ file: form.vue ~ line 97 ~ setup ~ newValue',
           newValue
         )
         emit('update:modelValue', newValue)
+      },
+      {
+        // 因为表单中 v-model 绑定的是 formData 中的某个属性，即修改的是 formData 中的属性，而不是直接修改的 formData，所以需要开启深度监听
+        deep: true
       }
-    })
+    )
 
     return { formData }
   }

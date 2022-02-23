@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, ref } from 'vue'
 import JjForm from '@/base-ui/form'
 import { searchFormConfig } from './config/search.config'
 
@@ -15,7 +15,8 @@ export default defineComponent({
     JjForm
   },
   setup() {
-    const formData = reactive({
+    // 这里使用了 ref，而没有使用 reactive 的原因是：在使用 v-model 进行（元素/组件的）双向绑定时 reactive 会有些问题
+    const formData = ref({
       id: '',
       name: '',
       password: '',
