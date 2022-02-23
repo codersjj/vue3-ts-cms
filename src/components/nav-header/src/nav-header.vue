@@ -4,19 +4,24 @@
       <component :is="isFold ? 'fold' : 'expand'"></component>
     </el-icon>
     <div class="content">
-      <div>面包屑</div>
+      <jj-breadcrumb :breadcrumb-items="breadcrumbItems" />
       <user-info />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import UserInfo from './cpns/user-info.vue'
+import JjBreadcrumb from '@/base-ui/breadcrumb'
+import { mapPathToBreadcrumbItems } from '@/utils/map-menus'
+import { useStore } from '@/store'
 
 export default defineComponent({
   components: {
-    UserInfo
+    UserInfo,
+    JjBreadcrumb
   },
   emits: ['foldChange'],
   setup(props, { emit }) {
@@ -26,7 +31,18 @@ export default defineComponent({
       emit('foldChange', !isFold.value)
     }
 
-    return { isFold, handleFoldClick }
+    const store = useStore()
+    const route = useRoute()
+    // 面包屑的数据：[{text: '', path: ''}, {text: '', path: ''}, ...]
+    const breadcrumbItems = computed(() => {
+      // 菜单数据发生改变时要进行重新获取，所以放在 computed 中
+      const userMenus = store.state.login.userMenus
+      // 路由数据发生改变时要进行重新获取，所以放在 computed 中
+      const currentPath = route.path
+      return mapPathToBreadcrumbItems(userMenus, currentPath)
+    })
+
+    return { isFold, breadcrumbItems, handleFoldClick }
   }
 })
 </script>

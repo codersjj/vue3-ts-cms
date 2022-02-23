@@ -18,6 +18,12 @@ const routes: RouteRecordRaw[] = [
     path: '/main',
     name: 'main',
     component: () => import('@/views/main/main.vue')
+    // children: [
+    //   {
+    //     path: 'analysis',
+    //     component: () => import('@/views/main/system/user/user.vue')
+    //   }
+    // ]
     // children: [] -> 根据 userMenus 来决定
   },
   {

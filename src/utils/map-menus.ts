@@ -1,4 +1,5 @@
 import { RouteRecordRaw } from 'vue-router'
+import { IBreadcrumbItem } from '@/base-ui/breadcrumb'
 
 let firstMenu: any = null
 
@@ -58,18 +59,43 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   return routes
 }
 
-export function mapPathToMenu(userMenus: any[], path: string): any {
+export function mapPathToMenu(
+  userMenus: any[],
+  path: string,
+  breadcrumbItems?: any[],
+  isTop = true
+): any {
   for (const menu of userMenus) {
     if (menu.type === 1) {
       // menu.children 没有值时传空数组，防止递归时遍历 userMenus 时变成遍历 undefined
-      const findMenu = mapPathToMenu(menu.children ?? [], path)
+      const findMenu = mapPathToMenu(
+        menu.children ?? [],
+        path,
+        breadcrumbItems,
+        false
+      )
       if (findMenu) {
+        breadcrumbItems?.push({ text: menu.name })
+        breadcrumbItems?.push({ text: findMenu.name })
         return findMenu
       }
     } else if (menu.type === 2 && menu.url === path) {
+      if (isTop) {
+        console.log('点击可跳转页面的顶级菜单')
+        breadcrumbItems?.push({ text: menu.name })
+      }
       return menu
     }
   }
+}
+
+export function mapPathToBreadcrumbItems(
+  userMenus: any[],
+  path: string
+): IBreadcrumbItem[] {
+  const breadcrumbItems: IBreadcrumbItem[] = []
+  mapPathToMenu(userMenus, path, breadcrumbItems)
+  return breadcrumbItems
 }
 
 export { firstMenu }

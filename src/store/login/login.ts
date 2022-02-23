@@ -31,6 +31,9 @@ const loginModule: Module<ILoginState, IRootState> = {
       state.userInfo = userInfo
     },
     changeUserMenus(state, userMenus: any) {
+      // userMenus[0].children.length = 0
+      // userMenus[0].type = 2
+
       // 保存 userMenus 数据，数据来源：服务器（用户第一次登录时）或者本地的 localStorage
       state.userMenus = userMenus
 
@@ -42,6 +45,7 @@ const loginModule: Module<ILoginState, IRootState> = {
       routes.forEach((route) => {
         router.addRoute('main', route)
       })
+      // console.log(router.getRoutes())
     }
   },
   actions: {

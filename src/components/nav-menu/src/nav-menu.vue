@@ -42,7 +42,10 @@
         </template>
         <!-- 一级菜单（这里指可以切换路由跳转到页面的菜单） -->
         <template v-else-if="item.type === 2">
-          <el-menu-item :index="item.id + ''">
+          <el-menu-item
+            :index="item.id + ''"
+            @click="handleMenuItemClick(item)"
+          >
             <el-icon v-if="item.icon">
               <component :is="item.icon.substring(8)"></component>
             </el-icon>
