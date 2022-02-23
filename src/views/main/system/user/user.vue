@@ -1,11 +1,11 @@
 <template>
   <div class="user">
-    <jj-form v-bind="searchFormConfig" />
+    <jj-form v-bind="searchFormConfig" :formData="formData" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import JjForm from '@/base-ui/form'
 import { searchFormConfig } from './config/search.config'
 
@@ -15,7 +15,15 @@ export default defineComponent({
     JjForm
   },
   setup() {
-    return { searchFormConfig }
+    const formData = reactive({
+      id: '',
+      name: '',
+      password: '',
+      sport: '',
+      createTime: ''
+    })
+
+    return { searchFormConfig, formData }
   }
 })
 </script>

@@ -16,6 +16,7 @@
                   :placeholder="item.placeholder"
                   :show-password="item.type === 'password'"
                   v-bind="item.otherOptions"
+                  v-model="formData[item.field]"
                 />
               </template>
               <template v-else-if="item.type === 'select'">
@@ -23,6 +24,7 @@
                   :placeholder="item.placeholder"
                   v-bind="item.otherOptions"
                   style="width: 100%"
+                  v-model="formData[item.field]"
                 >
                   <el-option
                     v-for="option in item.options"
@@ -36,6 +38,7 @@
                 <el-date-picker
                   style="width: 100%"
                   v-bind="item.otherOptions"
+                  v-model="formData[item.field]"
                 ></el-date-picker>
               </template>
               <!-- 其它类型 -->
@@ -54,6 +57,10 @@ import { IFormItem } from '../types'
 
 export default defineComponent({
   props: {
+    formData: {
+      type: Object,
+      required: true
+    },
     formItems: {
       type: Array as PropType<IFormItem[]>,
       // 注意，这里在写函数时要写成箭头函数，详解文档：https://vuejs.org/guide/typescript/options-api.html#caveats
