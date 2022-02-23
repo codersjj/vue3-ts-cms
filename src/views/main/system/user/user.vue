@@ -1,6 +1,6 @@
 <template>
   <div class="user">
-    <jj-form v-bind="searchFormConfig" :formData="formData" />
+    <jj-form v-bind="searchFormConfig" v-model="formData" />
   </div>
 </template>
 
