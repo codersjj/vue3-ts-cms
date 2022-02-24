@@ -1,5 +1,8 @@
 <template>
   <div class="jj-form">
+    <div class="header">
+      <slot name="header"></slot>
+    </div>
     <el-form :label-width="labelWidth">
       <el-row>
         <template v-for="item in formItems" :key="item.label">
@@ -48,6 +51,9 @@
         </template>
       </el-row>
     </el-form>
+    <div class="footer">
+      <slot name="footer"></slot>
+    </div>
   </div>
 </template>
 
@@ -88,6 +94,7 @@ export default defineComponent({
   emits: ['update:modelValue'],
   setup(props, { emit }) {
     // 注意：这里浅拷贝了一份 props.modelValue 对象，而不是直接引用 props.modelValue 对象，否则绑定的其实还是父组件中的那个对象，跟双向绑定就没有关系了，并且这样做到时候还是直接修改的这个父组件中对象的内容，这又违反了单向数据流的原则
+    // 当然，如果 formData 的属性还是引用类型，这里就不能用浅拷贝了，而是需要使用深拷贝了。
     const formData = ref({ ...props.modelValue })
 
     // 使用 watch 自己来监听 formData 数据的改变，当数据发生改变时，通过 emit() 发送出去，这样就真正实现了双向绑定，而不是之前那样（方案一和方案二）通过引用修改

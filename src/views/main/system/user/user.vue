@@ -1,6 +1,22 @@
 <template>
   <div class="user">
-    <jj-form v-bind="searchFormConfig" v-model="formData" />
+    <jj-form v-bind="searchFormConfig" v-model="formData">
+      <template v-slot:header>
+        <h2 class="header">高级检索</h2>
+      </template>
+      <template #footer>
+        <div class="handle-btns">
+          <el-button>
+            <el-icon><refresh-right /></el-icon>
+            <span>重置</span>
+          </el-button>
+          <el-button type="primary">
+            <el-icon><search /></el-icon>
+            <span>搜索</span>
+          </el-button>
+        </div>
+      </template>
+    </jj-form>
   </div>
 </template>
 
@@ -29,4 +45,14 @@ export default defineComponent({
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.header {
+  color: red;
+  /* text-align: left; */
+}
+
+.handle-btns {
+  text-align: right;
+  padding: 0 50px 20px 0;
+}
+</style>
