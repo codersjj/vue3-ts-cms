@@ -12,7 +12,14 @@
           </template> -->
           <!-- 使用作用域插槽，实现数据的个性化展示 -->
           <template #default="slotProps">
-            <el-button>{{ slotProps.row[attributes.prop] }}</el-button>
+            <!-- 添加插槽，实现外部可以传入自定义数据的功能 -->
+            <!-- <slot>
+              {{ slotProps.row[attributes.prop] }}
+            </slot> -->
+            <!-- 外部应该可以使用具名插槽来对指定列数据进行修改，所以这里添加具名插槽，并且插槽名是根据外部传入的内容动态决定的 -->
+            <slot :name="attributes.slotName">
+              {{ slotProps.row[attributes.prop] }}
+            </slot>
           </template>
         </el-table-column>
       </template>

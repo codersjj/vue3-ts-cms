@@ -3,7 +3,11 @@
     <page-search :searchFormConfig="searchFormConfig" />
 
     <div class="content">
-      <jj-table :tableData="userList" :attributesList="attributesList" />
+      <jj-table :tableData="userList" :attributesList="attributesList">
+        <template #status>
+          {{ 666 }}
+        </template>
+      </jj-table>
     </div>
   </div>
 </template>
@@ -41,9 +45,19 @@ export default defineComponent({
       { prop: 'name', label: '姓名', minWidth: '100' },
       { prop: 'realname', label: '真实姓名', minWidth: '100' },
       { prop: 'cellphone', label: '手机号', minWidth: '100' },
-      { prop: 'enable', label: '状态', minWidth: '100' },
-      { prop: 'createAt', label: '创建时间', minWidth: '230' },
-      { prop: 'updateAt', label: '更新时间', minWidth: '230' }
+      { prop: 'enable', label: '状态', minWidth: '100', slotName: 'status' },
+      {
+        prop: 'createAt',
+        label: '创建时间',
+        minWidth: '230',
+        slotName: 'createAt'
+      },
+      {
+        prop: 'updateAt',
+        label: '更新时间',
+        minWidth: '230',
+        slotName: 'updateAt'
+      }
     ]
 
     return { searchFormConfig, userList, attributesList }
