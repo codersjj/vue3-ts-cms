@@ -85,7 +85,7 @@ class JJRequest {
     )
   }
 
-  request<T>(config: JJRequestConfig<T>): Promise<T> {
+  request<T = any>(config: JJRequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       // 单个请求对请求 config 的处理
       if (config.interceptors?.requestInterceptor) {
@@ -123,19 +123,19 @@ class JJRequest {
     })
   }
 
-  get<T>(config: JJRequestConfig<T>): Promise<T> {
+  get<T = any>(config: JJRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'GET' })
   }
 
-  post<T>(config: JJRequestConfig<T>): Promise<T> {
+  post<T = any>(config: JJRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'POST' })
   }
 
-  delete<T>(config: JJRequestConfig<T>): Promise<T> {
+  delete<T = any>(config: JJRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'DELETE' })
   }
 
-  patch<T>(config: JJRequestConfig<T>): Promise<T> {
+  patch<T = any>(config: JJRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'PATCH' })
   }
 }
