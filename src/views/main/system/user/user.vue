@@ -3,12 +3,7 @@
     <page-search :searchFormConfig="searchFormConfig" />
 
     <div class="content">
-      <el-table :data="userList" border style="width: 100%">
-        <template v-for="attributes in attributesList" :key="attributes.prop">
-          <!-- <el-table-column prop="name" label="姓名" min-width="180" /> -->
-          <el-table-column v-bind="attributes" align="center" />
-        </template>
-      </el-table>
+      <jj-table :tableData="userList" :attributesList="attributesList" />
     </div>
   </div>
 </template>
@@ -16,13 +11,17 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store'
+
 import PageSearch from '@/components/page-search'
+import JjTable from '@/base-ui/table'
+
 import { searchFormConfig } from './config/search.config'
 
 export default defineComponent({
   name: 'user',
   components: {
-    PageSearch
+    PageSearch,
+    JjTable
   },
   setup() {
     const store = useStore()
