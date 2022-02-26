@@ -4,8 +4,13 @@
 
     <div class="content">
       <jj-table :tableData="userList" :attributesList="attributesList">
-        <template #status>
-          {{ 666 }}
+        <!-- 使用作用域插槽 -->
+        <template #status="scope">
+          <!-- 拿到该插槽上面绑定的 row 属性中的具体内容 -->
+          {{ scope.row.enable ? '启用' : '禁用' }}
+        </template>
+        <template #createAt="scope">
+          {{ scope.row.createAt }}
         </template>
       </jj-table>
     </div>

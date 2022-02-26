@@ -17,7 +17,8 @@
               {{ slotProps.row[attributes.prop] }}
             </slot> -->
             <!-- 外部应该可以使用具名插槽来对指定列数据进行修改，所以这里添加具名插槽，并且插槽名是根据外部传入的内容动态决定的 -->
-            <slot :name="attributes.slotName">
+            <!-- 通过作用域插槽把这一行的数据传出去 -->
+            <slot :name="attributes.slotName" :row="slotProps.row">
               {{ slotProps.row[attributes.prop] }}
             </slot>
           </template>
