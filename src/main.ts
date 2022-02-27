@@ -1,6 +1,7 @@
-// 每次刷新页面，都会重新加载这个 main.ts 编译后的 main.js 文件，并且代码是从上往下依次执行的
-
 import { createApp } from 'vue'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+dayjs.extend(utc)
 import { globalRegistry } from './global'
 import 'normalize.css'
 import './assets/css/index.less'
@@ -16,5 +17,12 @@ app.use(globalRegistry)
 app.use(store)
 setupStore()
 app.use(router)
+
+// 定义一个全局的属性 $filters，$符号用来表示是全局的属性
+app.config.globalProperties.$filters = {
+  formatUTCTime(utcString: string) {
+    return dayjs.utc(utcString).format('YYYY-MM-DD HH:mm:ss')
+  }
+}
 
 app.mount('#app')

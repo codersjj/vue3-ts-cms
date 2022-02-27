@@ -4,13 +4,19 @@
 
     <div class="content">
       <jj-table :tableData="userList" :attributesList="attributesList">
-        <!-- 使用作用域插槽 -->
         <template #status="scope">
-          <!-- 拿到该插槽上面绑定的 row 属性中的具体内容 -->
-          {{ scope.row.enable ? '启用' : '禁用' }}
+          <el-button
+            size="small"
+            :type="scope.row.enable ? 'success' : 'danger'"
+            plain
+            >{{ scope.row.enable ? '启用' : '禁用' }}</el-button
+          >
         </template>
         <template #createAt="scope">
-          {{ scope.row.createAt }}
+          {{ $filters.formatUTCTime(scope.row.createAt) }}
+        </template>
+        <template #updateAt="scope">
+          {{ $filters.formatUTCTime(scope.row.updateAt) }}
         </template>
       </jj-table>
     </div>
@@ -44,7 +50,7 @@ export default defineComponent({
 
     // 使用 computed 的目的是当数据发生改变时，可以自动重新获取到
     const userList = computed(() => store.state.system.userList)
-    const userCount = computed(() => store.state.system.userCount)
+    // const userCount = computed(() => store.state.system.userCount)
 
     const attributesList = [
       { prop: 'name', label: '姓名', minWidth: '100' },
