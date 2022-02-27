@@ -1,6 +1,7 @@
 import { App } from 'vue'
 // import registerElementPlus from './register-element-plus'
 import registerElementPlusIcons from './register-element-plus-icons'
+import registerProperties from './register-properties'
 
 export function globalRegistry(app: App): void {
   // 注册 ElementPlus 中的组件
@@ -11,4 +12,6 @@ export function globalRegistry(app: App): void {
   // 注册其它东西
   // 注册 element-plus 中的 icon 图标
   app.use(registerElementPlusIcons)
+  // 注册全局属性
+  app.use(registerProperties)
 }

@@ -13,10 +13,10 @@
           >
         </template>
         <template #createAt="scope">
-          {{ $filters.formatUTCTime(scope.row.createAt) }}
+          <span>{{ $filters.formatUTCTime(scope.row.createAt) }}</span>
         </template>
         <template #updateAt="scope">
-          {{ $filters.formatUTCTime(scope.row.updateAt) }}
+          <span>{{ $filters.formatUTCTime(scope.row.updateAt) }}</span>
         </template>
       </jj-table>
     </div>
