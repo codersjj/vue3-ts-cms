@@ -4,12 +4,22 @@
 
     <div class="content">
       <jj-table
+        :title="title"
         :tableData="userList"
         :attributesList="attributesList"
         :showIndexColumn="showIndexColumn"
         showSelectionColumn
         @selectionChange="handleSelectionChange"
       >
+        <!-- 1. header 中的插槽 -->
+        <template #headerHandler>
+          <el-button type="primary">新建用户</el-button>
+          <el-button>
+            <el-icon><refresh /></el-icon>
+          </el-button>
+        </template>
+
+        <!-- 2. 列表（el-table）中的插槽 -->
         <template #status="scope">
           <el-button
             size="small"
@@ -24,7 +34,7 @@
         <template #updateAt="scope">
           <span>{{ $filters.formatUTCTime(scope.row.updateAt) }}</span>
         </template>
-        <!-- 操作列不需要拿到当前行的数据，所以不需要向上面那样使用作用域插槽 -->
+        <!-- 操作列不需要拿到当前行的数据，所以不需要向上面那样使用作用域插槽，只需要使用具名插槽即可 -->
         <template #operation>
           <div class="operation-btns">
             <el-button type="text">
@@ -37,6 +47,8 @@
             </el-button>
           </div>
         </template>
+
+        <!-- <template #header>哈哈哈</template> -->
       </jj-table>
     </div>
   </div>
@@ -71,6 +83,8 @@ export default defineComponent({
     const userList = computed(() => store.state.system.userList)
     // const userCount = computed(() => store.state.system.userCount)
 
+    const title = '用户列表'
+
     const attributesList = [
       { prop: 'name', label: '姓名', minWidth: '100' },
       { prop: 'realname', label: '真实姓名', minWidth: '100' },
@@ -104,6 +118,7 @@ export default defineComponent({
     return {
       searchFormConfig,
       userList,
+      title,
       attributesList,
       showIndexColumn,
       showSelectionColumn,

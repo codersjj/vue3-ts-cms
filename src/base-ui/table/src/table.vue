@@ -1,5 +1,13 @@
 <template>
   <div class="jj-table">
+    <div class="header">
+      <slot name="header">
+        <div class="title">{{ title }}</div>
+        <div class="handler">
+          <slot name="headerHandler"></slot>
+        </div>
+      </slot>
+    </div>
     <el-table
       :data="tableData"
       border
@@ -29,6 +37,16 @@
         </el-table-column>
       </template>
     </el-table>
+    <div class="footer">
+      <slot name="footer">
+        <el-pagination
+          :page-sizes="[100, 200, 300, 400]"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="400"
+        >
+        </el-pagination>
+      </slot>
+    </div>
   </div>
 </template>
 
@@ -37,6 +55,10 @@ import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   props: {
+    title: {
+      type: String,
+      default: ''
+    },
     tableData: {
       type: Array,
       required: true
@@ -68,4 +90,25 @@ export default defineComponent({
 })
 </script>
 
-<style scoped></style>
+<style scoped lang="less">
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 45px;
+  padding: 0 5px;
+
+  .title {
+    font-size: 20px;
+    font-weight: 700;
+  }
+}
+
+.footer {
+  margin-top: 15px;
+
+  .el-pagination {
+    justify-content: flex-end;
+  }
+}
+</style>
