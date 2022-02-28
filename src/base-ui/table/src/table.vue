@@ -1,6 +1,24 @@
 <template>
   <div class="jj-table">
-    <el-table :data="tableData" border style="width: 100%">
+    <el-table
+      :data="tableData"
+      border
+      style="width: 100%"
+      @selection-change="handleSelectionChange"
+    >
+      <el-table-column
+        v-if="showSelectionColumn"
+        type="selection"
+        align="center"
+        width="60"
+      />
+      <el-table-column
+        v-if="showIndexColumn"
+        label="序号"
+        type="index"
+        align="center"
+        width="60"
+      />
       <template v-for="attributes in attributesList" :key="attributes.prop">
         <el-table-column v-bind="attributes" align="center">
           <template #default="slotProps">
@@ -26,10 +44,26 @@ export default defineComponent({
     attributesList: {
       type: Array as PropType<any[]>,
       required: true
+    },
+    showIndexColumn: {
+      type: Boolean,
+      default: false
+    },
+    showSelectionColumn: {
+      type: Boolean,
+      default: false
     }
   },
-  setup() {
-    return {}
+  emits: ['selectionChange'],
+  setup(props, { emit }) {
+    const handleSelectionChange = (selection: any) => {
+      console.log(selection)
+      emit('selectionChange', selection)
+    }
+
+    return {
+      handleSelectionChange
+    }
   }
 })
 </script>

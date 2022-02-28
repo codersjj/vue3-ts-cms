@@ -3,7 +3,13 @@
     <page-search :searchFormConfig="searchFormConfig" />
 
     <div class="content">
-      <jj-table :tableData="userList" :attributesList="attributesList">
+      <jj-table
+        :tableData="userList"
+        :attributesList="attributesList"
+        :showIndexColumn="showIndexColumn"
+        showSelectionColumn
+        @selectionChange="handleSelectionChange"
+      >
         <template #status="scope">
           <el-button
             size="small"
@@ -17,6 +23,19 @@
         </template>
         <template #updateAt="scope">
           <span>{{ $filters.formatUTCTime(scope.row.updateAt) }}</span>
+        </template>
+        <!-- 操作列不需要拿到当前行的数据，所以不需要向上面那样使用作用域插槽 -->
+        <template #operation>
+          <div class="operation-btns">
+            <el-button type="text">
+              <el-icon><edit /></el-icon>
+              <span>编辑</span>
+            </el-button>
+            <el-button type="text" class="operation-del-btn">
+              <el-icon><delete /></el-icon>
+              <span>删除</span>
+            </el-button>
+          </div>
         </template>
       </jj-table>
     </div>
@@ -68,10 +87,28 @@ export default defineComponent({
         label: '更新时间',
         minWidth: '230',
         slotName: 'updateAt'
-      }
+      },
+      { label: '操作', minWidth: '200', slotName: 'operation' }
     ]
 
-    return { searchFormConfig, userList, attributesList }
+    const showIndexColumn = true
+    const showSelectionColumn = true
+
+    const handleSelectionChange = (selection: any) => {
+      console.log(
+        '🚀 ~ file: user.vue ~ line 84 ~ handleSelectionChange ~ selection',
+        selection
+      )
+    }
+
+    return {
+      searchFormConfig,
+      userList,
+      attributesList,
+      showIndexColumn,
+      showSelectionColumn,
+      handleSelectionChange
+    }
   }
 })
 </script>
@@ -80,5 +117,9 @@ export default defineComponent({
 .content {
   padding: 20px;
   border-top: 10px solid #f5f5f5;
+}
+
+.operation-del-btn {
+  color: orangered;
 }
 </style>
