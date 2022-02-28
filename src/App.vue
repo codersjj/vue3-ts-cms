@@ -1,22 +1,30 @@
 <template>
   <div class="app">
-    <router-view></router-view>
+    <el-config-provider :locale="zhCn">
+      <router-view></router-view>
+    </el-config-provider>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { ElConfigProvider } from 'element-plus'
+import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 
 export default defineComponent({
   name: 'App',
+  components: {
+    ElConfigProvider
+  },
   props: {
     test_name: {
       type: String
     }
   },
-  setup(props) {
-    // setup 中的 props 可以通过 defineComponent() 内部的泛型推导出我们上面 props 中的定义的 test_name，并给出代码提示
-    props.test_name
+  setup() {
+    return {
+      zhCn
+    }
   }
 })
 </script>
