@@ -1,4 +1,6 @@
-export const contentTableConfig = {
+import { ITable } from '@/base-ui/table'
+
+export const contentTableConfig: ITable = {
   title: '用户列表',
   attributesList: [
     { prop: 'name', label: '姓名', minWidth: '100' },
