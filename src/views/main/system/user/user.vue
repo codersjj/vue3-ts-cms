@@ -4,11 +4,8 @@
 
     <div class="content">
       <jj-table
-        :title="title"
         :tableData="userList"
-        :attributesList="attributesList"
-        :showIndexColumn="showIndexColumn"
-        showSelectionColumn
+        v-bind="contentTableConfig"
         @selectionChange="handleSelectionChange"
       >
         <!-- 1. header 中的插槽 -->
@@ -62,6 +59,7 @@ import PageSearch from '@/components/page-search'
 import JjTable from '@/base-ui/table'
 
 import { searchFormConfig } from './config/search.config'
+import { contentTableConfig } from './config/content.config'
 
 export default defineComponent({
   name: 'user',
@@ -83,31 +81,6 @@ export default defineComponent({
     const userList = computed(() => store.state.system.userList)
     // const userCount = computed(() => store.state.system.userCount)
 
-    const title = '用户列表'
-
-    const attributesList = [
-      { prop: 'name', label: '姓名', minWidth: '100' },
-      { prop: 'realname', label: '真实姓名', minWidth: '100' },
-      { prop: 'cellphone', label: '手机号', minWidth: '100' },
-      { prop: 'enable', label: '状态', minWidth: '100', slotName: 'status' },
-      {
-        prop: 'createAt',
-        label: '创建时间',
-        minWidth: '230',
-        slotName: 'createAt'
-      },
-      {
-        prop: 'updateAt',
-        label: '更新时间',
-        minWidth: '230',
-        slotName: 'updateAt'
-      },
-      { label: '操作', minWidth: '200', slotName: 'operation' }
-    ]
-
-    const showIndexColumn = true
-    const showSelectionColumn = true
-
     const handleSelectionChange = (selection: any) => {
       console.log(
         '🚀 ~ file: user.vue ~ line 84 ~ handleSelectionChange ~ selection',
@@ -118,10 +91,7 @@ export default defineComponent({
     return {
       searchFormConfig,
       userList,
-      title,
-      attributesList,
-      showIndexColumn,
-      showSelectionColumn,
+      contentTableConfig,
       handleSelectionChange
     }
   }
