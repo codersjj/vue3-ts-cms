@@ -1,7 +1,7 @@
 <template>
   <div class="page-content">
     <jj-table
-      :tableData="userList"
+      :tableData="dataList"
       v-bind="contentTableConfig"
       @selectionChange="handleSelectionChange"
     >
@@ -57,15 +57,19 @@ export default defineComponent({
     contentTableConfig: {
       type: Object,
       required: true
+    },
+    pageName: {
+      type: String,
+      required: true
     }
   },
   components: {
     JjTable
   },
-  setup() {
+  setup(props) {
     const store = useStore()
     store.dispatch('system/getPageListAction', {
-      pageUrl: '/users/list',
+      pageName: props.pageName,
       queryInfo: {
         offset: 0,
         size: 10
@@ -73,7 +77,10 @@ export default defineComponent({
     })
 
     // 使用 computed 的目的是当数据发生改变时，可以自动重新获取到
-    const userList = computed(() => store.state.system.userList)
+    const dataList = computed(() =>
+      // 调用 system 模块中的 pageListData 这个 getter 返回的函数
+      store.getters['system/pageListData'](props.pageName)
+    )
     // const userCount = computed(() => store.state.system.userCount)
 
     const handleSelectionChange = (selection: any) => {
@@ -83,7 +90,7 @@ export default defineComponent({
       )
     }
     return {
-      userList,
+      dataList,
       handleSelectionChange
     }
   }
