@@ -19,7 +19,8 @@
                   :placeholder="item.placeholder"
                   :show-password="item.type === 'password'"
                   v-bind="item.otherOptions"
-                  v-model="formData[item.field]"
+                  :model-value="modelValue[item.field]"
+                  @update:modelValue="handleValueChange($event, item.field)"
                 />
               </template>
               <template v-else-if="item.type === 'select'">
@@ -27,7 +28,8 @@
                   :placeholder="item.placeholder"
                   v-bind="item.otherOptions"
                   style="width: 100%"
-                  v-model="formData[item.field]"
+                  :model-value="modelValue[item.field]"
+                  @update:modelValue="handleValueChange($event, item.field)"
                 >
                   <el-option
                     v-for="option in item.options"
@@ -41,7 +43,8 @@
                 <el-date-picker
                   style="width: 100%"
                   v-bind="item.otherOptions"
-                  v-model="formData[item.field]"
+                  :model-value="modelValue[item.field]"
+                  @update:modelValue="handleValueChange($event, item.field)"
                 ></el-date-picker>
               </template>
               <!-- 其它类型 -->
@@ -58,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watch } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { IFormItem } from '../types'
 
 export default defineComponent({
@@ -93,28 +96,11 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
-    // 注意：这里浅拷贝了一份 props.modelValue 对象，而不是直接引用 props.modelValue 对象，否则绑定的其实还是父组件中的那个对象，跟双向绑定就没有关系了，并且这样做到时候还是直接修改的这个父组件中对象的内容，这又违反了单向数据流的原则
-    // 当然，如果 formData 的属性还是引用类型，这里就不能用浅拷贝了，而是需要使用深拷贝了。
-    // 因为这里使用 ... 进行了浅拷贝，那么之后 formData 对原来的 props.modelValue 相当于就没有依赖了，所以对 props.modelValue 做整体改变不会对 formData 产生影响，即 formData 的值不会改变，所以表单中的内容也就不会改变
-    const formData = ref({ ...props.modelValue })
+    const handleValueChange = (newValue: any, field: string) => {
+      emit('update:modelValue', { ...props.modelValue, [field]: newValue })
+    }
 
-    // 使用 watch 自己来监听 formData 数据的改变，当数据发生改变时，通过 emit() 发送出去，这样就真正实现了双向绑定，而不是之前那样（方案一和方案二）通过引用修改
-    watch(
-      formData,
-      (newValue) => {
-        console.log(
-          '🚀 ~ file: form.vue ~ line 97 ~ setup ~ newValue',
-          newValue
-        )
-        emit('update:modelValue', newValue)
-      },
-      {
-        // 因为表单中 v-model 绑定的是 formData 中的某个属性，即修改的是 formData 中的属性，而不是直接修改的 formData，所以需要开启深度监听
-        deep: true
-      }
-    )
-
-    return { formData }
+    return { handleValueChange }
   }
 })
 </script>
