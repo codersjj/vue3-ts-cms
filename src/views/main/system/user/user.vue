@@ -22,6 +22,8 @@ import PageContent from '@/components/page-content'
 import { searchFormConfig } from './config/search.config'
 import { contentTableConfig } from './config/content.config'
 
+import { usePageSearch } from '@/hooks/usePageSearch'
+
 export default defineComponent({
   name: 'users',
   components: {
@@ -29,16 +31,8 @@ export default defineComponent({
     PageContent
   },
   setup() {
-    const pageContentRef = ref<InstanceType<typeof PageContent>>()
-
-    const handleResetBtnClick = () => {
-      // pageContentRef.value 没有值时不会调用 getPageData() 方法
-      pageContentRef.value?.getPageData()
-    }
-
-    const handleQueryBtnClick = (queryInfo: any) => {
-      pageContentRef.value?.getPageData(queryInfo)
-    }
+    const [pageContentRef, handleResetBtnClick, handleQueryBtnClick] =
+      usePageSearch()
 
     return {
       searchFormConfig,
