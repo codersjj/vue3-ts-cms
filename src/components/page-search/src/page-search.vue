@@ -10,7 +10,7 @@
             <el-icon><refresh-right /></el-icon>
             <span>重置</span>
           </el-button>
-          <el-button type="primary">
+          <el-button type="primary" @click="handleQueryClick">
             <el-icon><search /></el-icon>
             <span>搜索</span>
           </el-button>
@@ -34,7 +34,8 @@ export default defineComponent({
   components: {
     JjForm
   },
-  setup(props) {
+  emits: ['resetBtnClick', 'queryBtnClick'],
+  setup(props, { emit }) {
     // 这里使用了 ref，而没有使用 reactive 的原因是：在使用 v-model 进行（元素/组件的）双向绑定时 reactive 会有些问题
     // 双向绑定的属性应该是由配置文件中的 field 来决定
     // formData 中的属性应该动态决定
@@ -48,9 +49,16 @@ export default defineComponent({
     // 点击“重置”
     const handleResetClick = () => {
       formData.value = formOriginalData
+      emit('resetBtnClick')
     }
 
-    return { formData, handleResetClick }
+    // 点击“搜索”
+    const handleQueryClick = () => {
+      // 需要把查询的内容（formData.value）传递出去
+      emit('queryBtnClick', formData.value)
+    }
+
+    return { formData, handleResetClick, handleQueryClick }
   }
 })
 </script>

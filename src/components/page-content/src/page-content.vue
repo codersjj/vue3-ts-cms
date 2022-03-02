@@ -68,14 +68,20 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore()
-    store.dispatch('system/getPageListAction', {
-      pageName: props.pageName,
-      queryInfo: {
-        offset: 0,
-        size: 10
-      }
-    })
+    // 发送网络请求
+    const getPageData = (queryInfo: any = {}) => {
+      store.dispatch('system/getPageListAction', {
+        pageName: props.pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10,
+          ...queryInfo
+        }
+      })
+    }
+    getPageData()
 
+    // 从 Vuex 中获取数据
     // 使用 computed 的目的是当数据发生改变时，可以自动重新获取到
     const dataList = computed(() =>
       // 调用 system 模块中的 pageListData 这个 getter 返回的函数
@@ -91,7 +97,8 @@ export default defineComponent({
     }
     return {
       dataList,
-      handleSelectionChange
+      handleSelectionChange,
+      getPageData
     }
   }
 })
