@@ -47,7 +47,12 @@ export default defineComponent({
 
     // 点击“重置”
     const handleResetClick = () => {
-      formData.value = formOriginalData
+      // 直接给 formData 对象重新赋值影响不到 form.vue 中的内容，修改不掉 form.vue 中的 formData 中的值
+      // formData.value = formOriginalData
+      // 直接修改 formData 对象中属性的值可以修改掉 form.vue 中浅拷贝出来的 formData 中的值
+      for (const key in formOriginalData) {
+        formData.value[key] = formOriginalData[key]
+      }
     }
 
     return { formData, handleResetClick }

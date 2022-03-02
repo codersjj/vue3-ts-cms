@@ -95,16 +95,8 @@ export default defineComponent({
   setup(props, { emit }) {
     // 注意：这里浅拷贝了一份 props.modelValue 对象，而不是直接引用 props.modelValue 对象，否则绑定的其实还是父组件中的那个对象，跟双向绑定就没有关系了，并且这样做到时候还是直接修改的这个父组件中对象的内容，这又违反了单向数据流的原则
     // 当然，如果 formData 的属性还是引用类型，这里就不能用浅拷贝了，而是需要使用深拷贝了。
+    // 因为这里使用 ... 进行了浅拷贝，那么之后 formData 对原来的 props.modelValue 相当于就没有依赖了，所以对 props.modelValue 做整体改变不会对 formData 产生影响，即 formData 的值不会改变，所以表单中的内容也就不会改变
     const formData = ref({ ...props.modelValue })
-
-    // 暂时这样做，但会存在 Maximum recursive updates exceeded. 的问题
-    watch(
-      () => props.modelValue,
-      (newValue) => {
-        console.log(newValue)
-        formData.value = { ...newValue }
-      }
-    )
 
     // 使用 watch 自己来监听 formData 数据的改变，当数据发生改变时，通过 emit() 发送出去，这样就真正实现了双向绑定，而不是之前那样（方案一和方案二）通过引用修改
     watch(
