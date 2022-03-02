@@ -97,6 +97,15 @@ export default defineComponent({
     // 当然，如果 formData 的属性还是引用类型，这里就不能用浅拷贝了，而是需要使用深拷贝了。
     const formData = ref({ ...props.modelValue })
 
+    // 暂时这样做，但会存在 Maximum recursive updates exceeded. 的问题
+    watch(
+      () => props.modelValue,
+      (newValue) => {
+        console.log(newValue)
+        formData.value = { ...newValue }
+      }
+    )
+
     // 使用 watch 自己来监听 formData 数据的改变，当数据发生改变时，通过 emit() 发送出去，这样就真正实现了双向绑定，而不是之前那样（方案一和方案二）通过引用修改
     watch(
       formData,

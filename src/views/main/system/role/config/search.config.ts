@@ -25,5 +25,9 @@ export const searchFormConfig: IForm = {
       }
     }
   ],
-  labelWidth: '120px'
+  labelWidth: '120px',
+  itemStyle: {
+    padding: '10px 40px',
+    width: '370px'
+  }
 }
