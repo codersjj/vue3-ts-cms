@@ -38,7 +38,7 @@ class JJRequest {
     // 第二种：添加所有 axios 实例都有的拦截器
     this.instance.interceptors.request.use(
       (config) => {
-        console.log('所有 axios 实例都有的拦截器：请求成功的拦截')
+        // console.log('所有 axios 实例都有的拦截器：请求成功的拦截')
 
         if (this.showLoading) {
           this.loading = ElLoading.service({
@@ -51,13 +51,13 @@ class JJRequest {
         return config
       },
       (err) => {
-        console.log('所有 axios 实例都有的拦截器：请求失败的拦截')
+        // console.log('所有 axios 实例都有的拦截器：请求失败的拦截')
         return err
       }
     )
     this.instance.interceptors.response.use(
       (res) => {
-        console.log('所有 axios 实例都有的拦截器：响应成功的拦截')
+        // console.log('所有 axios 实例都有的拦截器：响应成功的拦截')
 
         // 将 loading 效果移除
         this.loading?.close()
@@ -71,7 +71,7 @@ class JJRequest {
         }
       },
       (err) => {
-        console.log('所有 axios 实例都有的拦截器：响应失败的拦截')
+        // console.log('所有 axios 实例都有的拦截器：响应失败的拦截')
 
         // 将 loading 效果移除
         this.loading?.close()

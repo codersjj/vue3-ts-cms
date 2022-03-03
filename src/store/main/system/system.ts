@@ -48,6 +48,9 @@ const systemModule: Module<ISystemState, IRootState> = {
   actions: {
     // 获取用户、角色、部门、菜单的数据
     async getPageListAction({ commit }, payload: any) {
+      console.log(
+        '🚀 ~ file: system.ts ~ line 51 ~ getPageListAction ~ getPageListAction'
+      )
       // 1. 获取 pageUrl
       const pageName = payload.pageName
       const pageUrl = `/${pageName}/list`
@@ -65,6 +68,14 @@ const systemModule: Module<ISystemState, IRootState> = {
 
       // 3. 将数据存储到 state 中
       const { list, totalCount } = pageListData.data
+      // 数据量不为 0 时如果返回数据列表为空，则直接跳出函数（解决分页器在改变当前页和每页条数时可能发生的发送两次网络请求时最后拿到的数据列表为空的 bug，如共有 9 条数据，每页显示 5 条，当前页为 2 时，点击切换为每页显示 10 条，就有可能导致请求不到列表数据）
+      if (totalCount && !list.length) {
+        return
+      }
+      console.log(
+        '🚀 ~ file: system.ts ~ line 71 ~ getPageListAction ~ pageListData.data',
+        pageListData.data
+      )
       const changePageName =
         pageName.slice(0, 1).toUpperCase() + pageName.slice(1)
       commit(`change${changePageName}List`, list)
