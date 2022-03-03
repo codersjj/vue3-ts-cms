@@ -2,7 +2,9 @@
   <div class="page-content">
     <jj-table
       :tableData="dataList"
+      :tableDataCount="dataCount"
       v-bind="contentTableConfig"
+      v-model:pagination="paginationInfo"
       @selectionChange="handleSelectionChange"
     >
       <!-- 1. header 中的插槽 -->
@@ -48,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref, watch } from 'vue'
 import { useStore } from '@/store'
 import JjTable from '@/base-ui/table'
 
@@ -67,18 +69,26 @@ export default defineComponent({
     JjTable
   },
   setup(props) {
+    // 双向绑定 paginationInfo
+    const paginationInfo = ref({ currentPage: 1, pageSize: 5 })
+    // 一旦监听到 paginationInfo 数据发生变化（table.vue 中我们监听了 pagination 的 currentPage 和 pageSize 的变化，然后向外发出了事件），就重新调用 getPageData() 发送网络请求
+    watch(paginationInfo, () => getPageData())
+
     const store = useStore()
     // 发送网络请求
     const getPageData = (queryInfo: any = {}) => {
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
-          offset: 0,
-          size: 10,
+          offset:
+            (paginationInfo.value.currentPage - 1) *
+            paginationInfo.value.pageSize,
+          size: paginationInfo.value.pageSize,
           ...queryInfo
         }
       })
     }
+    // 刚开始就调用一次
     getPageData()
 
     // 从 Vuex 中获取数据
@@ -87,7 +97,9 @@ export default defineComponent({
       // 调用 system 模块中的 pageListData 这个 getter 返回的函数
       store.getters['system/pageListData'](props.pageName)
     )
-    // const userCount = computed(() => store.state.system.userCount)
+    const dataCount = computed(() =>
+      store.getters['system/pageListDataCount'](props.pageName)
+    )
 
     const handleSelectionChange = (selection: any) => {
       console.log(
@@ -97,6 +109,8 @@ export default defineComponent({
     }
     return {
       dataList,
+      dataCount,
+      paginationInfo,
       handleSelectionChange,
       getPageData
     }

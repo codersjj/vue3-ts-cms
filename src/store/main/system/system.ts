@@ -24,6 +24,11 @@ const systemModule: Module<ISystemState, IRootState> = {
         //     return state.roleList
         // }
       }
+    },
+    pageListDataCount(state) {
+      return (pageName: string) => {
+        return (state as any)[`${pageName}Count`]
+      }
     }
   },
   mutations: {
