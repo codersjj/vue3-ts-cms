@@ -7,6 +7,7 @@
       v-model:pagination="paginationInfo"
       @selectionChange="handleSelectionChange"
     >
+      <!-- 一、插槽名称（headerHandler、status、createAt、updateAt、operation）在这里是写死的，这些插槽适用于比较公共的内容 -->
       <!-- 1. header 中的插槽 -->
       <template #headerHandler>
         <el-button type="primary">新建用户</el-button>
@@ -16,14 +17,6 @@
       </template>
 
       <!-- 2. 列表（el-table）中的插槽 -->
-      <template #status="scope">
-        <el-button
-          size="small"
-          :type="scope.row.enable ? 'success' : 'danger'"
-          plain
-          >{{ scope.row.enable ? '启用' : '禁用' }}</el-button
-        >
-      </template>
       <template #createAt="scope">
         <span>{{ $filters.formatUTCTime(scope.row.createAt) }}</span>
       </template>
@@ -45,6 +38,27 @@
       </template>
 
       <!-- <template #header>哈哈哈</template> -->
+
+      <!-- <template v-slot:image="scope">
+        <el-image
+          style="width: 60px; height: 60px"
+          :src="scope.row.imgUrl"
+          :preview-src-list="[scope.row.imgUrl]"
+          preview-teleported
+        />
+      </template> -->
+
+      <!-- 二、动态的插槽，使用的插槽名称由父组件传入，这种插槽适用于父组件特有的内容 -->
+      <template
+        v-for="dynamicSlotName in dynamicSlotNames"
+        :key="dynamicSlotName"
+        #[dynamicSlotName]="scope"
+      >
+        <!-- 下面的 notDynamicSlotNames 中已经过滤过了，所以这里的判断可以不加了 -->
+        <!-- <template v-if="dynamicSlotName"> -->
+        <slot :name="dynamicSlotName" :row="scope.row"></slot>
+        <!-- </template> -->
+      </template>
     </jj-table>
   </div>
 </template>
@@ -69,15 +83,14 @@ export default defineComponent({
     JjTable
   },
   setup(props) {
-    // 双向绑定 paginationInfo
+    // 1. 双向绑定 paginationInfo
     const paginationInfo = ref({ currentPage: 1, pageSize: 5 })
     // 一旦监听到 paginationInfo 数据发生变化（table.vue 中我们监听了 pagination 的 currentPage 和 pageSize 的变化，然后向外发出了事件），就重新调用 getPageData() 发送网络请求
     watch(paginationInfo, () => getPageData())
 
     const store = useStore()
-    // 发送网络请求
+    // 2. 发送网络请求
     const getPageData = (queryInfo: any = {}) => {
-      console.log('发送网络请求')
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
@@ -92,7 +105,7 @@ export default defineComponent({
     // 刚开始就调用一次
     getPageData()
 
-    // 从 Vuex 中获取数据
+    // 3. 从 Vuex 中获取数据
     // 使用 computed 的目的是当数据发生改变时，可以自动重新获取到
     const dataList = computed(() =>
       // 调用 system 模块中的 pageListData 这个 getter 返回的函数
@@ -100,6 +113,30 @@ export default defineComponent({
     )
     const dataCount = computed(() =>
       store.getters['system/pageListDataCount'](props.pageName)
+    )
+
+    const notDynamicSlotNames = [
+      undefined,
+      '',
+      'createAt',
+      'updateAt',
+      'operation'
+    ]
+    // 4. 获取其它的动态插槽名称
+    const dynamicSlotNames = props.contentTableConfig.attributesList
+      .map((attributes: any) => attributes.slotName)
+      .filter((slotName: string | undefined) => {
+        // if (slotName === undefined) return false
+        // if (slotName === 'status') return false
+        // if (slotName === 'createAt') return false
+        // if (slotName === 'updateAt') return false
+        // if (slotName === 'operation') return false
+        if (notDynamicSlotNames.includes(slotName)) return false
+        return true
+      })
+    console.log(
+      '🚀 ~ file: page-content.vue ~ line 145 ~ setup ~ dynamicSlotNames',
+      dynamicSlotNames
     )
 
     const handleSelectionChange = (selection: any) => {
@@ -112,6 +149,7 @@ export default defineComponent({
       dataList,
       dataCount,
       paginationInfo,
+      dynamicSlotNames,
       handleSelectionChange,
       getPageData
     }

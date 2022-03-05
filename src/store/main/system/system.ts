@@ -10,7 +10,9 @@ const systemModule: Module<ISystemState, IRootState> = {
       usersList: [],
       usersCount: 0,
       roleList: [],
-      roleCount: 0
+      roleCount: 0,
+      goodsList: [],
+      goodsCount: 0
     }
   },
   getters: {
@@ -43,14 +45,17 @@ const systemModule: Module<ISystemState, IRootState> = {
     },
     changeRoleCount(state, roleCount: number) {
       state.roleCount = roleCount
+    },
+    changeGoodsList(state, goodsList: any[]) {
+      state.goodsList = goodsList
+    },
+    changeGoodsCount(state, goodsCount: number) {
+      state.goodsCount = goodsCount
     }
   },
   actions: {
     // 获取用户、角色、部门、菜单的数据
     async getPageListAction({ commit }, payload: any) {
-      console.log(
-        '🚀 ~ file: system.ts ~ line 51 ~ getPageListAction ~ getPageListAction'
-      )
       // 1. 获取 pageUrl
       const pageName = payload.pageName
       const pageUrl = `/${pageName}/list`
@@ -72,10 +77,6 @@ const systemModule: Module<ISystemState, IRootState> = {
       if (totalCount && !list.length) {
         return
       }
-      console.log(
-        '🚀 ~ file: system.ts ~ line 71 ~ getPageListAction ~ pageListData.data',
-        pageListData.data
-      )
       const changePageName =
         pageName.slice(0, 1).toUpperCase() + pageName.slice(1)
       commit(`change${changePageName}List`, list)

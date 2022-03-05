@@ -17,7 +17,7 @@ export const contentTableConfig: ITable = {
       minWidth: '230',
       slotName: 'updateAt'
     },
-    { label: '操作', minWidth: '200', slotName: 'operation' }
+    { label: '操作', minWidth: '120', slotName: 'operation' }
   ],
   showIndexColumn: true,
   showSelectionColumn: true

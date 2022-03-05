@@ -24,11 +24,16 @@
         v-if="showIndexColumn"
         label="序号"
         type="index"
+        :index="(pagination.currentPage - 1) * pagination.pageSize + 1"
         align="center"
         width="60"
       />
       <template v-for="attributes in attributesList" :key="attributes.prop">
-        <el-table-column v-bind="attributes" align="center">
+        <el-table-column
+          v-bind="attributes"
+          align="center"
+          show-overflow-tooltip
+        >
           <template #default="slotProps">
             <slot :name="attributes.slotName" :row="slotProps.row">
               {{ slotProps.row[attributes.prop] }}

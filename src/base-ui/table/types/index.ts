@@ -1,6 +1,7 @@
 export interface ITableColumnAttributes {
   prop?: string
   label?: string
+  width?: string | number
   minWidth?: string
   slotName?: string
 }
