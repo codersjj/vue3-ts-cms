@@ -24,7 +24,7 @@
         v-if="showIndexColumn"
         label="序号"
         type="index"
-        :index="(pagination.currentPage - 1) * pagination.pageSize + 1"
+        :index="sequenceNumber"
         align="center"
         width="60"
       />
@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, computed } from 'vue'
 
 export default defineComponent({
   props: {
@@ -107,7 +107,12 @@ export default defineComponent({
       emit('update:pagination', { ...props.pagination, pageSize })
     }
 
+    const sequenceNumber = computed(
+      () => (props.pagination.currentPage - 1) * props.pagination.pageSize + 1
+    )
+
     return {
+      sequenceNumber,
       handleSelectionChange,
       handleCurrentPageChange,
       handlePageSizeChange
