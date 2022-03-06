@@ -74,6 +74,10 @@ export default defineComponent({
       type: Object,
       required: true
     },
+    parentName: {
+      type: String,
+      required: true
+    },
     pageName: {
       type: String,
       required: true
@@ -91,7 +95,7 @@ export default defineComponent({
     const store = useStore()
     // 2. 发送网络请求
     const getPageData = (queryInfo: any = {}) => {
-      store.dispatch('system/getPageListAction', {
+      store.dispatch(`${props.parentName}/getPageListAction`, {
         pageName: props.pageName,
         queryInfo: {
           offset:
@@ -108,11 +112,11 @@ export default defineComponent({
     // 3. 从 Vuex 中获取数据
     // 使用 computed 的目的是当数据发生改变时，可以自动重新获取到
     const dataList = computed(() =>
-      // 调用 system 模块中的 pageListData 这个 getter 返回的函数
-      store.getters['system/pageListData'](props.pageName)
+      // 调用指定模块中的 pageListData 这个 getter 返回的函数
+      store.getters[`${props.parentName}/pageListData`](props.pageName)
     )
     const dataCount = computed(() =>
-      store.getters['system/pageListDataCount'](props.pageName)
+      store.getters[`${props.parentName}/pageListDataCount`](props.pageName)
     )
 
     const notDynamicSlotNames = [

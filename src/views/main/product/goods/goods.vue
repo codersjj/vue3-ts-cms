@@ -1,6 +1,10 @@
 <template>
   <div class="goods">
-    <page-content :contentTableConfig="contentTableConfig" page-name="goods">
+    <page-content
+      :contentTableConfig="contentTableConfig"
+      parentName="product"
+      page-name="goods"
+    >
       <!-- goods.vue -> page-content.vue 中的动态插槽 -> table.vue 中的 image 插槽 -->
       <template v-slot:image="scope">
         <el-image
