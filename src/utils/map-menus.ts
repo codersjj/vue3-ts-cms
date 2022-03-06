@@ -98,4 +98,25 @@ export function mapPathToBreadcrumbItems(
   return breadcrumbItems
 }
 
+export function mapMenusToPermissions(userMenus: any[]) {
+  const permissions: string[] = []
+
+  // 考虑到可能存在的不确定树形结构（如：一级菜单下还存在一级菜单，再往下才是二级、三级），这里没有使用三层遍历，而是使用了递归（只要是一级菜单或二级菜单，就继续往下遍历，直到找到三级菜单）
+  function _recurseGetPermission(menus: any[]) {
+    for (const menu of menus) {
+      if (menu.type === 1 || menu.type === 2) {
+        // 一级/二级菜单，继续递归向下遍历
+        _recurseGetPermission(menu.children ?? [])
+      } else if (menu.type === 3) {
+        // 三级菜单，获取其权限，添加进数组
+        permissions.push(menu.permission)
+      }
+    }
+  }
+
+  _recurseGetPermission(userMenus)
+
+  return permissions
+}
+
 export { firstMenu }

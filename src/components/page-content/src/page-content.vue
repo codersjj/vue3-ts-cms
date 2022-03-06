@@ -10,7 +10,7 @@
       <!-- 一、插槽名称（headerHandler、status、createAt、updateAt、operation）在这里是写死的，这些插槽适用于比较公共的内容 -->
       <!-- 1. header 中的插槽 -->
       <template #headerHandler>
-        <el-button type="primary">新建用户</el-button>
+        <el-button v-if="canCreate" type="primary">新建用户</el-button>
         <el-button>
           <el-icon><refresh /></el-icon>
         </el-button>
@@ -26,11 +26,11 @@
       <!-- 操作列不需要拿到当前行的数据，所以不需要向上面那样使用作用域插槽，只需要使用具名插槽即可 -->
       <template #operation>
         <div class="operation-btns">
-          <el-button type="text">
+          <el-button v-if="canUpdate" type="text">
             <el-icon><edit /></el-icon>
             <span>编辑</span>
           </el-button>
-          <el-button type="text" class="operation-del-btn">
+          <el-button v-if="canDelete" type="text" class="operation-del-btn">
             <el-icon><delete /></el-icon>
             <span>删除</span>
           </el-button>
@@ -67,6 +67,7 @@
 import { defineComponent, computed, ref, watch } from 'vue'
 import { useStore } from '@/store'
 import JjTable from '@/base-ui/table'
+import { usePermission } from '@/hooks/usePermission'
 
 export default defineComponent({
   props: {
@@ -87,6 +88,12 @@ export default defineComponent({
     JjTable
   },
   setup(props) {
+    // 0. 获取操作权限
+    const canCreate = usePermission(props.pageName, 'create')
+    const canDelete = usePermission(props.pageName, 'delete')
+    const canUpdate = usePermission(props.pageName, 'update')
+    const canQuery = usePermission(props.pageName, 'query')
+
     const prevQueryInfo = ref()
 
     // 1. 双向绑定 paginationInfo
@@ -97,6 +104,9 @@ export default defineComponent({
     const store = useStore()
     // 2. 发送网络请求
     const getPageData = (queryInfo: any = {}) => {
+      // 没有查询权限时直接跳出函数，不再发送网络请求
+      if (!canQuery) return
+
       prevQueryInfo.value = { ...queryInfo }
 
       store.dispatch(`${props.parentName}/getPageListAction`, {
@@ -153,12 +163,16 @@ export default defineComponent({
         selection
       )
     }
+
     return {
       dataList,
       dataCount,
       prevQueryInfo, // 这里返回 prevQueryInfo 只是为了能在 Vue Devtools 中看到它的值，方便调试
       paginationInfo,
       dynamicSlotNames,
+      canCreate,
+      canDelete,
+      canUpdate,
       handleSelectionChange,
       getPageData
     }
