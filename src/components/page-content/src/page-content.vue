@@ -87,14 +87,18 @@ export default defineComponent({
     JjTable
   },
   setup(props) {
+    const prevQueryInfo = ref()
+
     // 1. 双向绑定 paginationInfo
     const paginationInfo = ref({ currentPage: 1, pageSize: 5 })
     // 一旦监听到 paginationInfo 数据发生变化（table.vue 中我们监听了 pagination 的 currentPage 和 pageSize 的变化，然后向外发出了事件），就重新调用 getPageData() 发送网络请求
-    watch(paginationInfo, () => getPageData())
+    watch(paginationInfo, () => getPageData({ ...prevQueryInfo.value }))
 
     const store = useStore()
     // 2. 发送网络请求
     const getPageData = (queryInfo: any = {}) => {
+      prevQueryInfo.value = { ...queryInfo }
+
       store.dispatch(`${props.parentName}/getPageListAction`, {
         pageName: props.pageName,
         queryInfo: {
@@ -152,6 +156,7 @@ export default defineComponent({
     return {
       dataList,
       dataCount,
+      prevQueryInfo, // 这里返回 prevQueryInfo 只是为了能在 Vue Devtools 中看到它的值，方便调试
       paginationInfo,
       dynamicSlotNames,
       handleSelectionChange,
