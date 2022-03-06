@@ -64,7 +64,7 @@ class JJRequest {
 
         const data = res.data
         // 这里其实可以封装一个 checkStatus() 方法，根据不同的错误在界面上显示不同的错误信息
-        if (data.returnCode === '-1001') {
+        if (!data || data.returnCode === '-1001') {
           console.log('请求失败~，错误信息...')
         } else {
           return data
