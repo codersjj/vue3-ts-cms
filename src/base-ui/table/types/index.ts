@@ -9,6 +9,8 @@ export interface ITableColumnAttributes {
 export interface ITable {
   title: string
   attributesList: ITableColumnAttributes[]
-  showIndexColumn: boolean
-  showSelectionColumn: boolean
+  treeTableProps?: any
+  showIndexColumn?: boolean
+  showSelectionColumn?: boolean
+  showFooter?: boolean
 }

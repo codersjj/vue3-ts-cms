@@ -12,6 +12,7 @@
       :data="tableData"
       border
       style="width: 100%"
+      v-bind="treeTableProps"
       @selection-change="handleSelectionChange"
     >
       <el-table-column
@@ -42,7 +43,7 @@
         </el-table-column>
       </template>
     </el-table>
-    <div class="footer">
+    <div class="footer" v-if="showFooter">
       <slot name="footer">
         <el-pagination
           v-model:currentPage="pagination.currentPage"
@@ -91,6 +92,14 @@ export default defineComponent({
     pagination: {
       type: Object,
       default: () => ({ currentPage: 1, pageSize: 10 })
+    },
+    treeTableProps: {
+      type: Object,
+      default: () => ({})
+    },
+    showFooter: {
+      type: Boolean,
+      default: true
     }
   },
   emits: ['selectionChange', 'update:pagination'],
