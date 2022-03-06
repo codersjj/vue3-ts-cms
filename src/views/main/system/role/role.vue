@@ -10,7 +10,11 @@
       :contentTableConfig="contentTableConfig"
       parentName="system"
       pageName="role"
-    />
+    >
+      <template #create>
+        <el-button type="primary">新建角色</el-button>
+      </template>
+    </page-content>
   </div>
 </template>
 

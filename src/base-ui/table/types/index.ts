@@ -8,9 +8,15 @@ export interface ITableColumnAttributes {
 
 export interface ITable {
   title: string
+  headerHandlers?: IHandlerItem[]
   attributesList: ITableColumnAttributes[]
   treeTableProps?: any
   showIndexColumn?: boolean
   showSelectionColumn?: boolean
   showFooter?: boolean
+}
+
+export interface IHandlerItem {
+  slotName: string
+  permission?: string
 }

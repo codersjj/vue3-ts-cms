@@ -2,6 +2,12 @@ import { ITable } from '@/base-ui/table'
 
 export const contentTableConfig: ITable = {
   title: '角色列表',
+  headerHandlers: [
+    {
+      slotName: 'create',
+      permission: 'Create'
+    }
+  ],
   attributesList: [
     { prop: 'name', label: '角色名称', minWidth: '100' },
     { prop: 'intro', label: '权限介绍', minWidth: '100' },

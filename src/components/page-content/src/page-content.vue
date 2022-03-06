@@ -9,11 +9,25 @@
     >
       <!-- 一、插槽名称（headerHandler、status、createAt、updateAt、operation）在这里是写死的，这些插槽适用于比较公共的内容 -->
       <!-- 1. header 中的插槽 -->
-      <template #headerHandler>
+      <!-- <template #headerHandler>
         <el-button v-if="canCreate" type="primary">新建用户</el-button>
         <el-button>
           <el-icon><refresh /></el-icon>
         </el-button>
+      </template> -->
+      <template #headerHandler>
+        <template
+          v-for="item in contentTableConfig.headerHandlers"
+          :key="item.slotName"
+        >
+          <template
+            v-if="
+              !item.permission || headHandlerPermission[`can${item.permission}`]
+            "
+          >
+            <slot :name="item.slotName"></slot>
+          </template>
+        </template>
       </template>
 
       <!-- 2. 列表（el-table）中的插槽 -->
@@ -93,6 +107,11 @@ export default defineComponent({
     const canDelete = usePermission(props.pageName, 'delete')
     const canUpdate = usePermission(props.pageName, 'update')
     const canQuery = usePermission(props.pageName, 'query')
+    const headHandlerPermission: any = {
+      canCreate,
+      // 测试数据
+      canAudit: true
+    }
 
     const prevQueryInfo = ref()
 
@@ -173,6 +192,7 @@ export default defineComponent({
       canCreate,
       canDelete,
       canUpdate,
+      headHandlerPermission,
       handleSelectionChange,
       getPageData
     }

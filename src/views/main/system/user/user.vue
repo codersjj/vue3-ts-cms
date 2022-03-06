@@ -13,6 +13,18 @@
       parentName="system"
       pageName="users"
     >
+      <template #create>
+        <el-button type="primary">新建用户</el-button>
+      </template>
+      <template #audit>
+        <el-button type="primary">审核</el-button>
+      </template>
+      <template #refresh>
+        <el-button>
+          <el-icon><refresh /></el-icon>
+        </el-button>
+      </template>
+
       <template #status="scope">
         <el-button
           size="small"
