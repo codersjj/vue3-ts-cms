@@ -12,3 +12,10 @@ export function getPageListData(url: string, queryInfo: any) {
     data: queryInfo
   })
 }
+
+// url: /users/id
+export function deletePageDataItem(url: string) {
+  return jjRequest.delete<IDataType>({
+    url
+  })
+}

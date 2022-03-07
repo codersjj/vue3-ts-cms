@@ -41,16 +41,24 @@
         <span>{{ $filters.formatUTCTime(scope.row.updateAt) }}</span>
       </template>
       <!-- 操作列不需要拿到当前行的数据，所以不需要向上面那样使用作用域插槽，只需要使用具名插槽即可 -->
-      <template #operation>
+      <template #operation="scope">
         <div class="operation-btns">
           <el-button v-if="canUpdate" type="text">
             <el-icon><edit /></el-icon>
             <span>编辑</span>
           </el-button>
-          <el-button v-if="canDelete" type="text" class="operation-del-btn">
-            <el-icon><delete /></el-icon>
-            <span>删除</span>
-          </el-button>
+          <el-popconfirm
+            title="删除后不可恢复，确定删除吗？"
+            @confirm="handleDeleteClick(scope.row.id)"
+            @cancel="handleDeleteCancel"
+          >
+            <template #reference>
+              <el-button v-if="canDelete" type="text" class="operation-del-btn">
+                <el-icon><delete /></el-icon>
+                <span>删除</span>
+              </el-button>
+            </template>
+          </el-popconfirm>
         </div>
       </template>
 
@@ -187,6 +195,21 @@ export default defineComponent({
       dynamicSlotNames
     )
 
+    // 5. 删除、编辑、新建操作
+    const handleDeleteClick = (id: number) => {
+      console.log(
+        '🚀 ~ file: page-content.vue ~ line 197 ~ handleDeleteClick ~ id',
+        id
+      )
+      store.dispatch('system/deletePageDataItemAction', {
+        pageName: props.pageName,
+        id
+      })
+    }
+    const handleDeleteCancel = () => {
+      console.log('取消')
+    }
+
     const handleSelectionChange = (selection: any) => {
       console.log(
         '🚀 ~ file: user.vue ~ line 84 ~ handleSelectionChange ~ selection',
@@ -205,7 +228,9 @@ export default defineComponent({
       canUpdate,
       headHandlerPermission,
       handleSelectionChange,
-      getPageData
+      getPageData,
+      handleDeleteClick,
+      handleDeleteCancel
     }
   }
 })
