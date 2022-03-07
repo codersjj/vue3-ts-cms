@@ -5,11 +5,12 @@ export const contentTableConfig: ITable = {
   headerHandlers: [
     {
       slotName: 'create',
-      permission: 'Create'
+      // 大小写字母开头都可以
+      permission: 'create'
     },
     {
       slotName: 'audit',
-      permission: 'Audit'
+      permission: 'audit'
     },
     {
       slotName: 'refresh'

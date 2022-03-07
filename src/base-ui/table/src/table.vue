@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed } from 'vue'
+import { defineComponent, PropType, computed, watch } from 'vue'
 
 export default defineComponent({
   props: {
@@ -104,6 +104,10 @@ export default defineComponent({
   },
   emits: ['selectionChange', 'update:pagination'],
   setup(props, { emit }) {
+    watch(props.pagination, () => {
+      console.log('监听到了 props.pagination 的变化', props.pagination)
+    })
+
     const handleSelectionChange = (selection: any) => {
       console.log(selection)
       emit('selectionChange', selection)

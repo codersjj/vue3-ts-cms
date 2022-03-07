@@ -22,7 +22,10 @@
         >
           <template
             v-if="
-              !item.permission || headHandlerPermission[`can${item.permission}`]
+              !item.permission ||
+              headHandlerPermission[
+                `can${$filters.capitalize(item.permission)}`
+              ]
             "
           >
             <slot :name="item.slotName"></slot>
