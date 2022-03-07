@@ -70,6 +70,10 @@ const systemModule: Module<ISystemState, IRootState> = {
 
       // 2. 发送网络请求
       const pageListData = await getPageListData(pageUrl, payload.queryInfo)
+      console.log(
+        '🚀 ~ file: system.ts ~ line 73 ~ getPageListAction ~ pageListData',
+        pageListData
+      )
 
       // 3. 将数据存储到 state 中
       const { list, totalCount } = pageListData.data

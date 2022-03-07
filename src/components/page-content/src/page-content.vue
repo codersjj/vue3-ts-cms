@@ -122,9 +122,17 @@ export default defineComponent({
 
     const store = useStore()
     // 2. 发送网络请求
-    const getPageData = (queryInfo: any = {}) => {
+    const getPageData = (
+      queryInfo: any = {},
+      isResetPaginationInfo = false
+    ) => {
       // 没有查询权限时直接跳出函数，不再发送网络请求
       if (!canQuery) return
+
+      if (isResetPaginationInfo) {
+        paginationInfo.value.currentPage = 1
+        paginationInfo.value.pageSize = 5
+      }
 
       prevQueryInfo.value = { ...queryInfo }
 
