@@ -37,34 +37,19 @@
         </el-button>
       </template>
     </page-content>
-    <div class="page-modal">
-      <el-dialog v-model="dialogVisible" title="新建用户" width="30%" center>
-        <!-- 使用 el-dialog 中的默认插槽 -->
-        <!-- <span>待补充的内容</span> -->
-
-        <jj-form v-model="formData" v-bind="modalFormConfig"></jj-form>
-
-        <!-- 使用 el-dialog 中名为 footer 的插槽 -->
-        <template #footer>
-          <span class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogVisible = false"
-              >确 定</el-button
-            >
-          </span>
-        </template>
-      </el-dialog>
-    </div>
+    <page-modal
+      ref="pageModalRef"
+      :modalFormConfig="modalFormConfig"
+    ></page-modal>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 
-import JjForm from '@/base-ui/form'
-
 import PageSearch from '@/components/page-search'
 import PageContent from '@/components/page-content'
+import PageModal from '@/components/page-modal'
 
 import { searchFormConfig } from './config/search.config'
 import { contentTableConfig } from './config/content.config'
@@ -77,18 +62,16 @@ export default defineComponent({
   components: {
     PageSearch,
     PageContent,
-    JjForm
+    PageModal
   },
   setup() {
     const [pageContentRef, handleResetBtnClick, handleQueryBtnClick] =
       usePageSearch()
 
-    const dialogVisible = ref(false)
-
-    const formData = ref({})
+    const pageModalRef = ref<InstanceType<typeof PageModal>>()
 
     const createUserBtnClick = () => {
-      dialogVisible.value = true
+      if (pageModalRef.value) pageModalRef.value.dialogVisible = true
     }
 
     return {
@@ -96,10 +79,9 @@ export default defineComponent({
       contentTableConfig,
       modalFormConfig,
       pageContentRef,
+      pageModalRef,
       handleResetBtnClick,
       handleQueryBtnClick,
-      dialogVisible,
-      formData,
       createUserBtnClick
     }
   }
