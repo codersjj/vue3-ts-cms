@@ -14,7 +14,9 @@
       pageName="users"
     >
       <template #create>
-        <el-button type="primary">新建用户</el-button>
+        <el-button type="primary" @click="createUserBtnClick"
+          >新建用户</el-button
+        >
       </template>
       <template #audit>
         <el-button type="primary">审核</el-button>
@@ -35,17 +37,38 @@
         </el-button>
       </template>
     </page-content>
+    <div class="page-modal">
+      <el-dialog v-model="dialogVisible" title="新建用户" width="30%" center>
+        <!-- 使用 el-dialog 中的默认插槽 -->
+        <!-- <span>待补充的内容</span> -->
+
+        <jj-form v-model="formData" v-bind="modalFormConfig"></jj-form>
+
+        <!-- 使用 el-dialog 中名为 footer 的插槽 -->
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="dialogVisible = false"
+              >确 定</el-button
+            >
+          </span>
+        </template>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
+
+import JjForm from '@/base-ui/form'
 
 import PageSearch from '@/components/page-search'
 import PageContent from '@/components/page-content'
 
 import { searchFormConfig } from './config/search.config'
 import { contentTableConfig } from './config/content.config'
+import { modalFormConfig } from './config/modal.config'
 
 import { usePageSearch } from '@/hooks/usePageSearch'
 
@@ -53,18 +76,31 @@ export default defineComponent({
   name: 'users',
   components: {
     PageSearch,
-    PageContent
+    PageContent,
+    JjForm
   },
   setup() {
     const [pageContentRef, handleResetBtnClick, handleQueryBtnClick] =
       usePageSearch()
 
+    const dialogVisible = ref(false)
+
+    const formData = ref({})
+
+    const createUserBtnClick = () => {
+      dialogVisible.value = true
+    }
+
     return {
       searchFormConfig,
       contentTableConfig,
+      modalFormConfig,
       pageContentRef,
       handleResetBtnClick,
-      handleQueryBtnClick
+      handleQueryBtnClick,
+      dialogVisible,
+      formData,
+      createUserBtnClick
     }
   }
 })
