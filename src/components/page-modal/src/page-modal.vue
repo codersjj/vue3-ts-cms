@@ -1,6 +1,12 @@
 <template>
   <div class="page-modal">
-    <el-dialog v-model="dialogVisible" title="新建用户" width="30%" center>
+    <el-dialog
+      v-model="dialogVisible"
+      title="新建用户"
+      width="30%"
+      center
+      destroy-on-close
+    >
       <!-- 使用 el-dialog 中的默认插槽 -->
       <!-- <span>待补充的内容</span> -->
 

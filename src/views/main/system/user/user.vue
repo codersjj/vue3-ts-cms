@@ -12,9 +12,10 @@
       :contentTableConfig="contentTableConfig"
       parentName="system"
       pageName="users"
+      @editBtnClick="handleEditBtnClick"
     >
       <template #create>
-        <el-button type="primary" @click="createUserBtnClick"
+        <el-button type="primary" @click="handleNewBtnClick"
           >新建用户</el-button
         >
       </template>
@@ -70,8 +71,18 @@ export default defineComponent({
 
     const pageModalRef = ref<InstanceType<typeof PageModal>>()
 
-    const createUserBtnClick = () => {
-      if (pageModalRef.value) pageModalRef.value.dialogVisible = true
+    const handleNewBtnClick = () => {
+      if (pageModalRef.value) {
+        pageModalRef.value.formData = {}
+        pageModalRef.value.dialogVisible = true
+      }
+    }
+
+    const handleEditBtnClick = (item: any) => {
+      if (pageModalRef.value) {
+        pageModalRef.value.formData = { ...item }
+        pageModalRef.value.dialogVisible = true
+      }
     }
 
     return {
@@ -82,7 +93,8 @@ export default defineComponent({
       pageModalRef,
       handleResetBtnClick,
       handleQueryBtnClick,
-      createUserBtnClick
+      handleNewBtnClick,
+      handleEditBtnClick
     }
   }
 })

@@ -43,7 +43,11 @@
       <!-- 操作列不需要拿到当前行的数据，所以不需要向上面那样使用作用域插槽，只需要使用具名插槽即可 -->
       <template #operation="scope">
         <div class="operation-btns">
-          <el-button v-if="canUpdate" type="text">
+          <el-button
+            v-if="canUpdate"
+            type="text"
+            @click="handleEditBtnClick(scope.row)"
+          >
             <el-icon><edit /></el-icon>
             <span>编辑</span>
           </el-button>
@@ -112,7 +116,8 @@ export default defineComponent({
   components: {
     JjTable
   },
-  setup(props) {
+  emits: ['editBtnClick'],
+  setup(props, { emit }) {
     // 0. 获取操作权限
     const canCreate = usePermission(props.pageName, 'create')
     const canDelete = usePermission(props.pageName, 'delete')
@@ -210,6 +215,10 @@ export default defineComponent({
       console.log('取消')
     }
 
+    const handleEditBtnClick = (rowData: any) => {
+      emit('editBtnClick', rowData)
+    }
+
     const handleSelectionChange = (selection: any) => {
       console.log(
         '🚀 ~ file: user.vue ~ line 84 ~ handleSelectionChange ~ selection',
@@ -230,7 +239,8 @@ export default defineComponent({
       handleSelectionChange,
       getPageData,
       handleDeleteClick,
-      handleDeleteCancel
+      handleDeleteCancel,
+      handleEditBtnClick
     }
   }
 })
