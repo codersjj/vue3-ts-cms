@@ -41,6 +41,7 @@
     <page-modal
       ref="pageModalRef"
       :modalFormConfig="modalFormConfig"
+      :defaultInfo="defaultInfo"
     ></page-modal>
   </div>
 </template>
@@ -71,16 +72,18 @@ export default defineComponent({
 
     const pageModalRef = ref<InstanceType<typeof PageModal>>()
 
+    const defaultInfo = ref({})
+
     const handleNewBtnClick = () => {
+      defaultInfo.value = {}
       if (pageModalRef.value) {
-        pageModalRef.value.formData = {}
         pageModalRef.value.dialogVisible = true
       }
     }
 
     const handleEditBtnClick = (item: any) => {
+      defaultInfo.value = { ...item }
       if (pageModalRef.value) {
-        pageModalRef.value.formData = { ...item }
         pageModalRef.value.dialogVisible = true
       }
     }
@@ -91,6 +94,7 @@ export default defineComponent({
       modalFormConfig,
       pageContentRef,
       pageModalRef,
+      defaultInfo,
       handleResetBtnClick,
       handleQueryBtnClick,
       handleNewBtnClick,

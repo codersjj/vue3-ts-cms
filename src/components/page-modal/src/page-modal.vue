@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 
 import JjForm from '@/base-ui/form'
 
@@ -39,11 +39,28 @@ export default defineComponent({
     modalFormConfig: {
       type: Object,
       required: true
+    },
+    defaultInfo: {
+      type: Object,
+      default: () => ({})
     }
   },
-  setup() {
+  setup(props) {
     const dialogVisible = ref(false)
-    const formData = ref({})
+    const formData = ref<any>({})
+
+    watch(
+      () => props.defaultInfo,
+      (newValue) => {
+        console.log(
+          '🚀 ~ file: page-modal.vue ~ line 53 ~ watch ~ newValue',
+          newValue
+        )
+        for (const item of props.modalFormConfig.formItems) {
+          formData.value[item.field] = newValue[item.field]
+        }
+      }
+    )
 
     return {
       dialogVisible,
