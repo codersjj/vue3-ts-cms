@@ -36,9 +36,10 @@
                   <el-option
                     v-for="option in item.options"
                     :value="option.value"
+                    :label="option.text"
                     :key="option.value"
-                    >{{ option.text }}</el-option
                   >
+                  </el-option>
                 </el-select>
               </template>
               <template v-else-if="item.type === 'datepicker'">

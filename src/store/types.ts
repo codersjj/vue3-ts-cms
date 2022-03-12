@@ -4,6 +4,8 @@ import { ISystemState } from './main/system/types'
 export interface IRootState {
   name: string
   age: number
+  allDepartments: any[]
+  allRoles: any[]
 }
 
 export interface IRootWithModule {
