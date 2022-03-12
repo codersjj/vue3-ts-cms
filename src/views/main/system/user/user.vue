@@ -71,8 +71,22 @@ export default defineComponent({
     const [pageContentRef, handleResetBtnClick, handleQueryBtnClick] =
       usePageSearch()
 
+    // 属于页面特有的逻辑最好放在页面中，公共的逻辑才写到 hook 中
+    const newCallback = () => {
+      const passwordItem = modalFormConfig.formItems.find(
+        (item) => item.field === 'password'
+      )
+      passwordItem!.isHidden = false
+    }
+    const editCallback = () => {
+      const passwordItem = modalFormConfig.formItems.find(
+        (item) => item.field === 'password'
+      )
+      passwordItem!.isHidden = true
+    }
+    // page-modal 相关的 hook 逻辑
     const [pageModalRef, defaultInfo, handleNewBtnClick, handleEditBtnClick] =
-      usePageModal()
+      usePageModal(newCallback, editCallback)
 
     return {
       searchFormConfig,

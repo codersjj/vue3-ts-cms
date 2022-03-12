@@ -49,7 +49,8 @@ export const modalFormConfig: IForm = {
           message: '密码必须是3位以上的字母或数字~',
           trigger: 'blur'
         }
-      ]
+      ],
+      isHidden: false
     },
     {
       field: 'cellphone',

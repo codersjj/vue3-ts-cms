@@ -1,7 +1,12 @@
 import { ref } from 'vue'
 import PageModal from '@/components/page-modal'
 
-export function usePageModal() {
+type CallbackFn = () => void
+
+export function usePageModal(
+  newClickCb?: CallbackFn,
+  editClickCb?: CallbackFn
+) {
   const pageModalRef = ref<InstanceType<typeof PageModal>>()
 
   const defaultInfo = ref({})
@@ -11,6 +16,8 @@ export function usePageModal() {
     if (pageModalRef.value) {
       pageModalRef.value.dialogVisible = true
     }
+    // 点击新建按钮时执行页面中传进来的函数
+    newClickCb?.()
   }
 
   const handleEditBtnClick = (item: any) => {
@@ -18,6 +25,8 @@ export function usePageModal() {
     if (pageModalRef.value) {
       pageModalRef.value.dialogVisible = true
     }
+    // 点击编辑按钮时执行页面中传进来的函数
+    editClickCb?.()
   }
 
   return [pageModalRef, defaultInfo, handleNewBtnClick, handleEditBtnClick]
