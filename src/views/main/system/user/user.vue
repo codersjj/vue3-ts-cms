@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 
 import PageSearch from '@/components/page-search'
 import PageContent from '@/components/page-content'
@@ -58,6 +58,7 @@ import { contentTableConfig } from './config/content.config'
 import { modalFormConfig } from './config/modal.config'
 
 import { usePageSearch } from '@/hooks/usePageSearch'
+import { usePageModal } from '@/hooks/usePageModal'
 
 export default defineComponent({
   name: 'users',
@@ -70,23 +71,8 @@ export default defineComponent({
     const [pageContentRef, handleResetBtnClick, handleQueryBtnClick] =
       usePageSearch()
 
-    const pageModalRef = ref<InstanceType<typeof PageModal>>()
-
-    const defaultInfo = ref({})
-
-    const handleNewBtnClick = () => {
-      defaultInfo.value = {}
-      if (pageModalRef.value) {
-        pageModalRef.value.dialogVisible = true
-      }
-    }
-
-    const handleEditBtnClick = (item: any) => {
-      defaultInfo.value = { ...item }
-      if (pageModalRef.value) {
-        pageModalRef.value.dialogVisible = true
-      }
-    }
+    const [pageModalRef, defaultInfo, handleNewBtnClick, handleEditBtnClick] =
+      usePageModal()
 
     return {
       searchFormConfig,
