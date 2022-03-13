@@ -48,6 +48,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { useStore } from '@/store'
 
 import PageSearch from '@/components/page-search'
 import PageContent from '@/components/page-content'
@@ -71,6 +72,7 @@ export default defineComponent({
     const [pageContentRef, handleResetBtnClick, handleQueryBtnClick] =
       usePageSearch()
 
+    // ========== 处理密码的逻辑 ==========
     // 属于页面特有的逻辑最好放在页面中，公共的逻辑才写到 hook 中
     const newCallback = () => {
       const passwordItem = modalFormConfig.formItems.find(
@@ -87,6 +89,23 @@ export default defineComponent({
     // page-modal 相关的 hook 逻辑
     const [pageModalRef, defaultInfo, handleNewBtnClick, handleEditBtnClick] =
       usePageModal(newCallback, editCallback)
+
+    // ========== 动态添加部门和角色列表 ==========
+    const store = useStore()
+    const departmentItem = modalFormConfig.formItems.find(
+      (item) => item.field === 'departmentId'
+    )
+    departmentItem!.options = store.state.allDepartments.map((item) => ({
+      value: item.id,
+      text: item.name
+    }))
+    const roleItem = modalFormConfig.formItems.find(
+      (item) => item.field === 'roleId'
+    )
+    roleItem!.options = store.state.allRoles.map((item) => ({
+      value: item.id,
+      text: item.name
+    }))
 
     return {
       searchFormConfig,
