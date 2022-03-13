@@ -38,16 +38,17 @@
         </el-button>
       </template>
     </page-content>
+    <!-- modalFormConfigRef 是响应式对象，所以当它发生变化时，组件中的 modalFormConfig 也会进行更新，页面就能展示最新的数据 -->
     <page-modal
       ref="pageModalRef"
-      :modalFormConfig="modalFormConfig"
+      :modalFormConfig="modalFormConfigRef"
       :defaultInfo="defaultInfo"
     ></page-modal>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store'
 
 import PageSearch from '@/components/page-search'
@@ -92,25 +93,30 @@ export default defineComponent({
 
     // ========== 动态添加部门和角色列表 ==========
     const store = useStore()
-    const departmentItem = modalFormConfig.formItems.find(
-      (item) => item.field === 'departmentId'
-    )
-    departmentItem!.options = store.state.allDepartments.map((item) => ({
-      value: item.id,
-      text: item.name
-    }))
-    const roleItem = modalFormConfig.formItems.find(
-      (item) => item.field === 'roleId'
-    )
-    roleItem!.options = store.state.allRoles.map((item) => ({
-      value: item.id,
-      text: item.name
-    }))
+    // store.state.allDepartments、store.state.allRoles 发生改变时，computed 的 getter 函数就会重新执行（即 departmentItem、roleItem 对象的内容会被更新，因此 modalFormConfig 的内容就被更新了），拿到最新的 modalFormConfig
+    const modalFormConfigRef = computed(() => {
+      const departmentItem = modalFormConfig.formItems.find(
+        (item) => item.field === 'departmentId'
+      )
+      departmentItem!.options = store.state.allDepartments.map((item) => ({
+        value: item.id,
+        text: item.name
+      }))
+      const roleItem = modalFormConfig.formItems.find(
+        (item) => item.field === 'roleId'
+      )
+      roleItem!.options = store.state.allRoles.map((item) => ({
+        value: item.id,
+        text: item.name
+      }))
+
+      return modalFormConfig
+    })
 
     return {
       searchFormConfig,
       contentTableConfig,
-      modalFormConfig,
+      modalFormConfigRef,
       pageContentRef,
       pageModalRef,
       defaultInfo,
