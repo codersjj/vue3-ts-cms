@@ -16,7 +16,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false"
+          <el-button type="primary" @click="handleConfirmBtnClick"
             >确 定</el-button
           >
         </span>
@@ -27,6 +27,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue'
+import { useStore } from 'vuex'
 
 import JjForm from '@/base-ui/form'
 
@@ -43,6 +44,10 @@ export default defineComponent({
     defaultInfo: {
       type: Object,
       default: () => ({})
+    },
+    pageName: {
+      type: String,
+      required: true
     }
   },
   setup(props) {
@@ -62,9 +67,32 @@ export default defineComponent({
       }
     )
 
+    // 点击确定按钮的逻辑
+    const store = useStore()
+    const handleConfirmBtnClick = () => {
+      if (Object.keys(props.defaultInfo).length) {
+        // 编辑
+        console.log('编辑')
+        store.dispatch('system/editPageDataItemAction', {
+          pageName: props.pageName,
+          id: props.defaultInfo.id,
+          editData: { ...formData.value }
+        })
+      } else {
+        // 新建
+        console.log('新建')
+        store.dispatch('system/createPageDataItemAction', {
+          pageName: props.pageName,
+          newData: { ...formData.value }
+        })
+      }
+      dialogVisible.value = false
+    }
+
     return {
       dialogVisible,
-      formData
+      formData,
+      handleConfirmBtnClick
     }
   }
 })

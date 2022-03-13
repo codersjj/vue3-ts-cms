@@ -19,3 +19,17 @@ export function deletePageDataItem(url: string) {
     url
   })
 }
+
+export function createPageDataItem(url: string, newData: any) {
+  return jjRequest.post<IDataType>({
+    url,
+    data: newData
+  })
+}
+
+export function editPageDataItem(url: string, editData: any) {
+  return jjRequest.patch<IDataType>({
+    url,
+    data: editData
+  })
+}

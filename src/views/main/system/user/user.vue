@@ -43,6 +43,7 @@
       ref="pageModalRef"
       :modalFormConfig="modalFormConfigRef"
       :defaultInfo="defaultInfo"
+      pageName="users"
     ></page-modal>
   </div>
 </template>

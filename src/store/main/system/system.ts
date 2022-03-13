@@ -3,7 +3,9 @@ import { IRootState } from '@/store/types'
 import { ISystemState } from './types'
 import {
   getPageListData,
-  deletePageDataItem
+  deletePageDataItem,
+  createPageDataItem,
+  editPageDataItem
 } from '@/service/main/system/system'
 
 const systemModule: Module<ISystemState, IRootState> = {
@@ -108,6 +110,36 @@ const systemModule: Module<ISystemState, IRootState> = {
       await deletePageDataItem(pageUrl)
 
       // 3. 重新获取页面表格数据
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 5
+        }
+      })
+    },
+    async createPageDataItemAction({ dispatch }, payload: any) {
+      // 1. 创建数据的请求
+      const { pageName, newData } = payload
+      const pageUrl = `/${pageName}`
+      await createPageDataItem(pageUrl, newData)
+
+      // 2. 请求最新的数据
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 5
+        }
+      })
+    },
+    async editPageDataItemAction({ dispatch }, payload: any) {
+      // 1. 编辑数据的请求
+      const { pageName, id, editData } = payload
+      const pageUrl = `/${pageName}/${id}`
+      await editPageDataItem(pageUrl, editData)
+
+      // 2. 请求最新的数据
       dispatch('getPageListAction', {
         pageName,
         queryInfo: {
