@@ -60,7 +60,6 @@ const store = createStore<IRootState>({
 // 对 store 中的一些内容进行初始化
 export function setupStore() {
   store.dispatch('login/loadLocalLogin')
-  store.dispatch('getInitialDataAction')
 }
 
 // 封装一个 useStore() 函数，内部还是调用的 Vuex 的 useStore() 函数，只不过封装后返回的 Store 类型中的类型是我们自定义的一个交叉类型

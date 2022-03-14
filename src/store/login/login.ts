@@ -59,13 +59,17 @@ const loginModule: Module<ILoginState, IRootState> = {
   },
   actions: {
     // 账号登录
-    async accountLoginAction({ commit }, payload: IAccount) {
+    async accountLoginAction({ commit, dispatch }, payload: IAccount) {
       // 1. 实现登录逻辑
       const loginResult = await accountLoginRequest(payload)
       const { id, token } = loginResult.data
       commit('changeToken', token)
       // 缓存 token 信息
       localCache.setCache('token', token)
+
+      // 在拿到 token 之后再发送获取初始化数据（完整的 role、department 数据）的请求
+      // 在模块中调用根里面的 action（dispatch 的是 root 中的 getInitialDataAction），需要指定 root: true
+      dispatch('getInitialDataAction', null, { root: true })
 
       // 2. 请求用户信息
       const userInfoResult = await requestUserInfoById(id)
@@ -88,10 +92,16 @@ const loginModule: Module<ILoginState, IRootState> = {
     // phoneLoginAction({ commit }, payload: any) {
     //   console.log('执行 phoneLoginAction', payload)
     // },
-    loadLocalLogin({ commit }) {
+    // 刷新页面时会执行（main.ts -> setupStore() -> loadLocalLogin）
+    loadLocalLogin({ commit, dispatch }) {
       const token = localCache.getCache('token')
+      console.log(
+        '🚀 ~ file: login.ts ~ line 93 ~ loadLocalLogin ~ token',
+        token
+      )
       if (token) {
         commit('changeToken', token)
+        dispatch('getInitialDataAction', null, { root: true })
       }
       const userInfo = localCache.getCache('userInfo')
       if (userInfo) {
