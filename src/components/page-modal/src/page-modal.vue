@@ -2,7 +2,7 @@
   <div class="page-modal">
     <el-dialog
       v-model="dialogVisible"
-      title="新建用户"
+      :title="title"
       width="30%"
       center
       destroy-on-close
@@ -53,6 +53,7 @@ export default defineComponent({
   setup(props) {
     const dialogVisible = ref(false)
     const formData = ref<any>({})
+    const title = ref('')
 
     watch(
       () => props.defaultInfo,
@@ -92,6 +93,7 @@ export default defineComponent({
     return {
       dialogVisible,
       formData,
+      title,
       handleConfirmBtnClick
     }
   }
