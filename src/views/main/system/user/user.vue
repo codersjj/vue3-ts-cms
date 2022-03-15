@@ -44,7 +44,7 @@
       :modalFormConfig="modalFormConfigRef"
       :defaultInfo="defaultInfo"
       pageName="users"
-      :title="Object.keys(defaultInfo).length ? '编辑用户' : '新建用户'"
+      :title="modalTitle"
     ></page-modal>
   </div>
 </template>
@@ -117,6 +117,12 @@ export default defineComponent({
       return modalFormConfig
     })
 
+    const modalTitle = computed(() =>
+      Object.keys((defaultInfo as Ref<any>).value).length
+        ? '编辑用户'
+        : '新建用户'
+    )
+
     return {
       searchFormConfig,
       contentTableConfig,
@@ -124,6 +130,7 @@ export default defineComponent({
       pageContentRef,
       pageModalRef,
       defaultInfo,
+      modalTitle,
       handleResetBtnClick,
       handleQueryBtnClick,
       handleNewBtnClick,
