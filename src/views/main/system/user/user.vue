@@ -44,6 +44,7 @@
       :modalFormConfig="modalFormConfigRef"
       :defaultInfo="defaultInfo"
       pageName="users"
+      :title="Object.keys(defaultInfo).length ? '编辑用户' : '新建用户'"
     ></page-modal>
   </div>
 </template>
@@ -81,14 +82,14 @@ export default defineComponent({
         (item) => item.field === 'password'
       )
       passwordItem!.isHidden = false
-      pageModalRef.value.title = '新建用户'
+      // pageModalRef.value.title = '新建用户'
     }
     const editCallback = (pageModalRef: Ref<any>) => {
       const passwordItem = modalFormConfig.formItems.find(
         (item) => item.field === 'password'
       )
       passwordItem!.isHidden = true
-      pageModalRef.value.title = '编辑用户'
+      // pageModalRef.value.title = '编辑用户'
     }
     // page-modal 相关的 hook 逻辑
     const [pageModalRef, defaultInfo, handleNewBtnClick, handleEditBtnClick] =

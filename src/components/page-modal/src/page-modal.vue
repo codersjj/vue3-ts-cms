@@ -48,12 +48,16 @@ export default defineComponent({
     pageName: {
       type: String,
       required: true
+    },
+    title: {
+      type: String,
+      default: ''
     }
   },
   setup(props) {
     const dialogVisible = ref(false)
     const formData = ref<any>({})
-    const title = ref('')
+    // const title = ref('')
 
     watch(
       () => props.defaultInfo,
@@ -93,7 +97,7 @@ export default defineComponent({
     return {
       dialogVisible,
       formData,
-      title,
+      // title,
       handleConfirmBtnClick
     }
   }
