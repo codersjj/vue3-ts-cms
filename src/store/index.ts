@@ -16,7 +16,8 @@ const store = createStore<IRootState>({
       age: 20,
       height: '1.88',
       allDepartments: [],
-      allRoles: []
+      allRoles: [],
+      allMenus: []
     }
   },
   mutations: {
@@ -28,6 +29,9 @@ const store = createStore<IRootState>({
     },
     changeAllRoles(state, list) {
       state.allRoles = list
+    },
+    changeAllMenus(state, list) {
+      state.allMenus = list
     }
   },
   getters: {},
@@ -48,6 +52,11 @@ const store = createStore<IRootState>({
       })
       const { list: roleList } = rolesRes.data
       commit('changeAllRoles', roleList)
+
+      // 请求完整菜单数据并保存到 Vuex 中
+      const menusRes = await getPageListData('/menu/list', {})
+      const { list: menuList } = menusRes.data
+      commit('changeAllMenus', menuList)
     }
   },
   modules: {

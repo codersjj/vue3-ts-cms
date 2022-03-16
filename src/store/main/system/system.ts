@@ -121,6 +121,10 @@ const systemModule: Module<ISystemState, IRootState> = {
     async createPageDataItemAction({ dispatch }, payload: any) {
       // 1. 创建数据的请求
       const { pageName, newData } = payload
+      console.log(
+        '🚀 ~ file: system.ts ~ line 124 ~ createPageDataItemAction ~ newData',
+        newData
+      )
       const pageUrl = `/${pageName}`
       await createPageDataItem(pageUrl, newData)
 

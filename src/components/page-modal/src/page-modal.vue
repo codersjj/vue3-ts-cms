@@ -12,6 +12,8 @@
 
       <jj-form v-model="formData" v-bind="modalFormConfig"></jj-form>
 
+      <slot></slot>
+
       <!-- 使用 el-dialog 中名为 footer 的插槽 -->
       <template #footer>
         <span class="dialog-footer">
@@ -42,6 +44,10 @@ export default defineComponent({
       required: true
     },
     defaultInfo: {
+      type: Object,
+      default: () => ({})
+    },
+    otherInfo: {
       type: Object,
       default: () => ({})
     },
@@ -81,14 +87,14 @@ export default defineComponent({
         store.dispatch('system/editPageDataItemAction', {
           pageName: props.pageName,
           id: props.defaultInfo.id,
-          editData: { ...formData.value }
+          editData: { ...formData.value, ...props.otherInfo }
         })
       } else {
         // 新建
         console.log('新建')
         store.dispatch('system/createPageDataItemAction', {
           pageName: props.pageName,
-          newData: { ...formData.value }
+          newData: { ...formData.value, ...props.otherInfo }
         })
       }
       dialogVisible.value = false

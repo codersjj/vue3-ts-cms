@@ -23,13 +23,25 @@
       :modalFormConfig="modalFormConfig"
       pageName="role"
       :defaultInfo="defaultInfo"
+      :otherInfo="otherInfo"
       :title="Object.keys(defaultInfo).length ? '编辑角色' : '新建角色'"
-    />
+    >
+      <div class="menu-tree">
+        <el-tree
+          :data="menus"
+          show-checkbox
+          node-key="id"
+          :props="{ children: 'children', label: 'name' }"
+          @check="handleCheck"
+        />
+      </div>
+    </page-modal>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
+import { useStore } from '@/store'
 
 import PageSearch from '@/components/page-search'
 import PageContent from '@/components/page-content'
@@ -56,6 +68,19 @@ export default defineComponent({
     const [pageModalRef, defaultInfo, handleNewBtnClick, handleEditBtnClick] =
       usePageModal()
 
+    const store = useStore()
+    const menus = computed(() => store.state.allMenus)
+
+    const otherInfo = ref({})
+    const handleCheck = (obj1: any, obj2: any) => {
+      console.log('obj1:', obj1)
+      console.log('obj2:', obj2)
+      const { checkedKeys, halfCheckedKeys } = obj2
+      const menuKeyList = [...checkedKeys, ...halfCheckedKeys]
+      // 注意：这里的字段（menuList）需和后端对应
+      otherInfo.value = { menuList: menuKeyList }
+    }
+
     return {
       searchFormConfig,
       contentTableConfig,
@@ -63,13 +88,20 @@ export default defineComponent({
       pageContentRef,
       pageModalRef,
       defaultInfo,
+      otherInfo,
+      menus,
       handleResetBtnClick,
       handleQueryBtnClick,
       handleNewBtnClick,
-      handleEditBtnClick
+      handleEditBtnClick,
+      handleCheck
     }
   }
 })
 </script>
 
-<style scoped></style>
+<style scoped lang="less">
+.menu-tree {
+  margin-left: 30px;
+}
+</style>
