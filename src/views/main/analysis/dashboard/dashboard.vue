@@ -28,9 +28,25 @@ export default defineComponent({
       // 3. 指定图表的配置项和数据
       const option = {
         title: {
-          text: 'ECharts 入门示例'
+          text: 'ECharts 入门示例',
+          subtext: '我是副标题'
         },
-        tooltip: {},
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            saveAsImage: {},
+            dataView: {
+              readOnly: true
+            }
+          },
+          right: 20
+        },
         legend: {
           data: ['销量']
         },
@@ -42,7 +58,7 @@ export default defineComponent({
           {
             name: '销量',
             type: 'bar',
-            data: [5, 20, 36, 10, 10, 20]
+            data: [18, 20, 36, 10, 10, 20]
           }
         ]
       }
