@@ -22,7 +22,9 @@ export default defineComponent({
         divRef.value
       )
       // 2. 基于准备好的 dom，初始化 echarts 实例
-      const echartsInstance = echarts.init(divRef.value!)
+      const echartsInstance = echarts.init(divRef.value!, 'light', {
+        renderer: 'svg'
+      })
       // 3. 指定图表的配置项和数据
       const option = {
         title: {
