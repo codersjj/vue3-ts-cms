@@ -5,17 +5,12 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  ref,
-  onMounted,
-  defineProps,
-  withDefaults,
-  defineExpose,
-  watch
-} from 'vue'
+import { ref, onMounted, defineProps, withDefaults, watchEffect } from 'vue'
 import { EChartsOption } from 'echarts'
 
 import { useChart } from '../hooks/useChart'
+
+import eventBus from '@/utils/eventBus'
 
 // 定义 props
 const props = withDefaults(
@@ -33,23 +28,13 @@ const props = withDefaults(
 )
 
 const chartDivRef = ref<HTMLElement>()
-const resize = ref()
-watch(resize, (newVal, oldVal) => {
-  console.log(
-    '🚀 ~ file: base-chart.vue ~ line 39 ~ watch ~ newVal, oldVal',
-    newVal,
-    oldVal
-  )
-  if (!oldVal) resize.value = newVal
-})
 onMounted(() => {
   const { setOption, updateSize } = useChart(chartDivRef.value!)
-  setOption(props.option)
-  resize.value = updateSize
-})
-
-defineExpose({
-  resize
+  // （关键）使用 watchEffect，当 props.option 改变时，重新调用 setOption()
+  watchEffect(() => {
+    setOption(props.option)
+  })
+  eventBus.emit('chartResize', updateSize)
 })
 </script>
 

@@ -45,6 +45,7 @@ declare module 'vue' {
     PageContent: typeof import('./src/components/page-content/src/page-content.vue')['default']
     PageModal: typeof import('./src/components/page-modal/src/page-modal.vue')['default']
     PageSearch: typeof import('./src/components/page-search/src/page-search.vue')['default']
+    PieChart: typeof import('./src/components/page-charts/src/pie-chart.vue')['default']
     UserInfo: typeof import('./src/components/nav-header/src/cpns/user-info.vue')['default']
   }
 }

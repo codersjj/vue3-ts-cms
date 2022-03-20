@@ -32,26 +32,19 @@ export default defineComponent({
     NavHeader
   },
   setup() {
-    const chartResizeFn = ref()
-    eventBus.on('cityGoodsSalesChartResize', (resize: any) => {
+    const chartResizeFns = ref<any>([])
+    eventBus.on('chartResize', (resize: any) => {
       console.log('🚀 ~ file: main.vue ~ line 37 ~ eventBus ~ resize', resize)
-      chartResizeFn.value = resize
-    })
-    const chartResizeFn2 = ref()
-    eventBus.on('categoryGoodsCountChartResize', (resize: any) => {
-      chartResizeFn2.value = resize
+      chartResizeFns.value.push(resize)
     })
 
     const isCollapse = ref(false)
     const handleFoldChange = (isFold: boolean) => {
       isCollapse.value = isFold
-      console.log(
-        '🚀 ~ file: main.vue ~ line 45 ~ handleFoldChange ~ chartResizeFn.value',
-        chartResizeFn.value
-      )
-      // 设置定时器初步解决菜单栏折叠/展开时图表 resize 无效的问题
-      setTimeout(chartResizeFn.value, 200)
-      setTimeout(chartResizeFn2.value, 200)
+      for (const chartResizeFn of chartResizeFns.value) {
+        // 设置定时器初步解决菜单栏折叠/展开时图表 resize 无效的问题
+        setTimeout(chartResizeFn, 200)
+      }
     }
 
     return { isCollapse, handleFoldChange }
