@@ -5,6 +5,7 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+declare module 'hy-event-store'
 
 declare let $store: any
 declare let $filters: any

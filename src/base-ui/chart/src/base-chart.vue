@@ -5,15 +5,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, defineProps, withDefaults } from 'vue'
-import * as echarts from 'echarts'
+import {
+  ref,
+  onMounted,
+  defineProps,
+  withDefaults,
+  defineExpose,
+  watch
+} from 'vue'
 import { EChartsOption } from 'echarts'
 
-// defineProps({
-//   // String 是 JS 的类型
-//   width: String,
-//   height: String
-// })
+import { useChart } from '../hooks/useChart'
 
 // 定义 props
 const props = withDefaults(
@@ -31,24 +33,23 @@ const props = withDefaults(
 )
 
 const chartDivRef = ref<HTMLElement>()
+const resize = ref()
+watch(resize, (newVal, oldVal) => {
+  console.log(
+    '🚀 ~ file: base-chart.vue ~ line 39 ~ watch ~ newVal, oldVal',
+    newVal,
+    oldVal
+  )
+  if (!oldVal) resize.value = newVal
+})
 onMounted(() => {
-  const echartsInstance = echarts.init(chartDivRef.value!)
-  // const option = {
-  //   xAxis: {
-  //     type: 'category',
-  //     data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-  //   },
-  //   yAxis: {
-  //     type: 'value'
-  //   },
-  //   series: [
-  //     {
-  //       data: [120, 200, 150, 80, 70, 110, 130],
-  //       type: 'bar'
-  //     }
-  //   ]
-  // }
-  echartsInstance.setOption(props.option)
+  const { setOption, updateSize } = useChart(chartDivRef.value!)
+  setOption(props.option)
+  resize.value = updateSize
+})
+
+defineExpose({
+  resize
 })
 </script>
 
