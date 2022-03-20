@@ -42,8 +42,8 @@ export default defineComponent({
     const handleFoldChange = (isFold: boolean) => {
       isCollapse.value = isFold
       for (const chartResizeFn of chartResizeFns.value) {
-        // 设置定时器初步解决菜单栏折叠/展开时图表 resize 无效的问题
-        setTimeout(chartResizeFn, 200)
+        // 设置定时器（注意延迟时间要大于菜单栏折叠/展开动画的执行时长，否则可能还没调整完大小就结束了）解决菜单栏折叠/展开时图表 resize 无效的问题
+        setTimeout(chartResizeFn, 320)
       }
     }
 
