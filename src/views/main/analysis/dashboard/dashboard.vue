@@ -7,7 +7,9 @@
         </jj-card>
       </el-col>
       <el-col :span="10">
-        <jj-card title="不同城市商品销量"></jj-card>
+        <jj-card title="不同城市商品销量">
+          <map-chart :data="cityGoodsSalesData"></map-chart>
+        </jj-card>
       </el-col>
       <el-col :span="7">
         <jj-card title="分类商品数量(玫瑰图)">
@@ -42,7 +44,8 @@ import {
   PieChart,
   PieRoseChart,
   LineAreaChart,
-  BarChart
+  BarChart,
+  MapChart
 } from '@/components/page-charts'
 
 export default defineComponent({
@@ -52,7 +55,8 @@ export default defineComponent({
     PieChart,
     PieRoseChart,
     LineAreaChart,
-    BarChart
+    BarChart,
+    MapChart
   },
   setup() {
     const store = useStore()
@@ -65,6 +69,13 @@ export default defineComponent({
       return store.state.dashboard.categoryGoodsCount.map((item) => ({
         value: item.goodsCount,
         name: item.name
+      }))
+    })
+
+    const cityGoodsSalesData = computed(() => {
+      return store.state.dashboard.cityGoodsSales.map((item) => ({
+        value: item.count,
+        name: item.address
       }))
     })
 
@@ -96,6 +107,7 @@ export default defineComponent({
 
     return {
       categoryGoodsCountData,
+      cityGoodsSalesData,
       categoryGoodsSalesData,
       categoryGoodsFavorData
     }

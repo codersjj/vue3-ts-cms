@@ -4,6 +4,7 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BarChart: typeof import('./src/components/page-charts/src/bar-chart.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
@@ -40,12 +41,15 @@ declare module 'vue' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTree: typeof import('element-plus/es')['ElTree']
+    LineAreaChart: typeof import('./src/components/page-charts/src/line-area-chart.vue')['default']
+    MapChart: typeof import('./src/components/page-charts/src/map-chart.vue')['default']
     NavHeader: typeof import('./src/components/nav-header/src/nav-header.vue')['default']
     NavMenu: typeof import('./src/components/nav-menu/src/nav-menu.vue')['default']
     PageContent: typeof import('./src/components/page-content/src/page-content.vue')['default']
     PageModal: typeof import('./src/components/page-modal/src/page-modal.vue')['default']
     PageSearch: typeof import('./src/components/page-search/src/page-search.vue')['default']
     PieChart: typeof import('./src/components/page-charts/src/pie-chart.vue')['default']
+    PieRoseChart: typeof import('./src/components/page-charts/src/pie-rose-chart.vue')['default']
     UserInfo: typeof import('./src/components/nav-header/src/cpns/user-info.vue')['default']
   }
 }

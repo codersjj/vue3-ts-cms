@@ -6,6 +6,7 @@ declare module '*.vue' {
   export default component
 }
 declare module 'hy-event-store'
+declare module '*.json'
 
 declare let $store: any
 declare let $filters: any
