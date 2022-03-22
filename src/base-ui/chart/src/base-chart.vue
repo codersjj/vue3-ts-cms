@@ -23,7 +23,7 @@ const props = withDefaults(
   {
     // 在使用 echarts 时，宽度一般设置为 100%
     width: '100%',
-    height: '400px'
+    height: '360px'
   }
 )
 
