@@ -1,6 +1,10 @@
 <template>
   <div class="login">
-    <login-panel />
+    <el-row>
+      <el-col :span="6" :offset="16">
+        <login-panel />
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -20,11 +24,21 @@ export default defineComponent({
 
 <style scoped lang="less">
 .login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
   width: 100%;
   height: 100%;
-  background: url('../../assets/img/login-bg.svg');
+  background: url('../../assets/img/login-bg.jpg') center;
+  background-size: cover;
+
+  .el-row {
+    height: 100%;
+    .el-col {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 }
 </style>
