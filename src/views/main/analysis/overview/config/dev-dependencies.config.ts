@@ -1,0 +1,27 @@
+import type { IDescription } from '@/base-ui/descriptions'
+export const devDependencies: IDescription[] = [
+  { label: '@commitlint/cli', description: '^16.1.0' },
+  { label: '@commitlint/config-conventional', description: '^16.0.0' },
+  { label: '@typescript-eslint/eslint-plugin', description: '^4.18.0' },
+  { label: '@typescript-eslint/parser', description: '^4.18.0' },
+  { label: '@vue/cli-plugin-babel', description: '~4.5.0' },
+  { label: '@vue/cli-plugin-eslint', description: '~4.5.0' },
+  { label: '@vue/cli-plugin-typescript', description: '~4.5.0' },
+  { label: '@vue/cli-service', description: '~4.5.0' },
+  { label: '@vue/compiler-sfc', description: '^3.2.31' },
+  { label: '@vue/eslint-config-prettier', description: '^6.0.0' },
+  { label: '@vue/eslint-config-typescript', description: '^7.0.0' },
+  { label: 'commitizen', description: '^4.2.4' },
+  { label: 'cz-conventional-changelog', description: '^3.3.0' },
+  { label: 'eslint', description: '^6.7.2' },
+  { label: 'eslint-plugin-prettier', description: '^3.3.1' },
+  { label: 'eslint-plugin-vue', description: '^7.0.0' },
+  { label: 'husky', description: '^7.0.0' },
+  { label: 'less', description: '^3.0.4' },
+  { label: 'less-loader', description: '^5.0.0' },
+  { label: 'prettier', description: '^2.5.1' },
+  { label: 'typescript', description: '~4.1.5' },
+  { label: 'unplugin-auto-import', description: '^0.5.11' },
+  { label: 'unplugin-element-plus', description: '^0.2.0' },
+  { label: 'unplugin-vue-components', description: '^0.17.15' }
+]
