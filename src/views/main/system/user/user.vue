@@ -77,6 +77,7 @@ export default defineComponent({
 
     // ========== 处理密码的逻辑 ==========
     // 属于页面特有的逻辑最好放在页面中，公共的逻辑才写到 hook 中
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const newCallback = (pageModalRef: Ref<any>) => {
       const passwordItem = modalFormConfig.formItems.find(
         (item) => item.field === 'password'
@@ -84,6 +85,7 @@ export default defineComponent({
       passwordItem!.isHidden = false
       // pageModalRef.value.title = '新建用户'
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const editCallback = (pageModalRef: Ref<any>) => {
       const passwordItem = modalFormConfig.formItems.find(
         (item) => item.field === 'password'

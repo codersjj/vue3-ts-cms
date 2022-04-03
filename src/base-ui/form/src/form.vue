@@ -17,12 +17,15 @@
               <template
                 v-if="item.type === 'input' || item.type === 'password'"
               >
+                <!-- 将输入框设置为只读，产生焦点的时候再将只读模式去掉，以解决如果浏览器保存过用户名密码，表单新增页面输入框自动填入用户名密码的问题 -->
                 <el-input
                   :placeholder="item.placeholder"
                   :show-password="item.type === 'password'"
                   v-bind="item.otherOptions"
                   :model-value="modelValue[item.field]"
                   @update:modelValue="handleValueChange($event, item.field)"
+                  readonly
+                  onfocus="this.removeAttribute('readonly')"
                 />
               </template>
               <template v-else-if="item.type === 'select'">
