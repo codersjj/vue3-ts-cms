@@ -75,10 +75,6 @@ const systemModule: Module<ISystemState, IRootState> = {
 
       // 2. 发送网络请求
       const pageListData = await getPageListData(pageUrl, payload.queryInfo)
-      console.log(
-        '🚀 ~ file: system.ts ~ line 73 ~ getPageListAction ~ pageListData',
-        pageListData
-      )
 
       // 3. 将数据存储到 state 中
       const { list, totalCount } = pageListData.data
@@ -121,10 +117,6 @@ const systemModule: Module<ISystemState, IRootState> = {
     async createPageDataItemAction({ dispatch }, payload: any) {
       // 1. 创建数据的请求
       const { pageName, newData } = payload
-      console.log(
-        '🚀 ~ file: system.ts ~ line 124 ~ createPageDataItemAction ~ newData',
-        newData
-      )
       const pageUrl = `/${pageName}`
       await createPageDataItem(pageUrl, newData)
 

@@ -50,10 +50,6 @@ const loginModule: Module<ILoginState, IRootState> = {
 
       // 获取用户按钮权限
       const permissions = mapMenusToPermissions(userMenus)
-      console.log(
-        '🚀 ~ file: login.ts ~ line 51 ~ changeUserMenus ~ permissions',
-        permissions
-      )
       state.permissions = permissions
     }
   },
@@ -95,10 +91,6 @@ const loginModule: Module<ILoginState, IRootState> = {
     // 刷新页面时会执行（main.ts -> setupStore() -> loadLocalLogin）
     loadLocalLogin({ commit, dispatch }) {
       const token = localCache.getCache('token')
-      console.log(
-        '🚀 ~ file: login.ts ~ line 93 ~ loadLocalLogin ~ token',
-        token
-      )
       if (token) {
         commit('changeToken', token)
         dispatch('getInitialDataAction', null, { root: true })

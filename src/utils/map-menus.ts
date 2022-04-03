@@ -81,7 +81,6 @@ export function mapPathToMenu(
       }
     } else if (menu.type === 2 && menu.url === path) {
       if (isTop) {
-        console.log('点击可跳转页面的顶级菜单')
         breadcrumbItems?.push({ text: menu.name })
       }
       return menu

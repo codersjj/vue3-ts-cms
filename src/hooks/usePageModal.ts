@@ -21,10 +21,6 @@ export function usePageModal(
   }
 
   const handleEditBtnClick = (item: any) => {
-    console.log(
-      '🚀 ~ file: usePageModal.ts ~ line 24 ~ handleEditBtnClick ~ item',
-      item
-    )
     defaultInfo.value = { ...item }
     if (pageModalRef.value) {
       pageModalRef.value.dialogVisible = true

@@ -68,10 +68,6 @@ export default defineComponent({
     watch(
       () => props.defaultInfo,
       (newValue) => {
-        console.log(
-          '🚀 ~ file: page-modal.vue ~ line 53 ~ watch ~ newValue',
-          newValue
-        )
         for (const item of props.modalFormConfig.formItems) {
           formData.value[item.field] = newValue[item.field]
         }
@@ -83,7 +79,6 @@ export default defineComponent({
     const handleConfirmBtnClick = () => {
       if (Object.keys(props.defaultInfo).length) {
         // 编辑
-        console.log('编辑')
         store.dispatch('system/editPageDataItemAction', {
           pageName: props.pageName,
           id: props.defaultInfo.id,
@@ -91,7 +86,6 @@ export default defineComponent({
         })
       } else {
         // 新建
-        console.log('新建')
         store.dispatch('system/createPageDataItemAction', {
           pageName: props.pageName,
           newData: { ...formData.value, ...props.otherInfo }

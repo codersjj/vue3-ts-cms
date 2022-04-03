@@ -11,7 +11,6 @@ export function useChart(dom: HTMLElement) {
   }
 
   const updateSize = () => {
-    console.log('更新size')
     echartsInstance.resize()
   }
 

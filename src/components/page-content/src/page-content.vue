@@ -195,17 +195,9 @@ export default defineComponent({
         if (notDynamicSlotNames.includes(slotName)) return false
         return true
       })
-    console.log(
-      '🚀 ~ file: page-content.vue ~ line 145 ~ setup ~ dynamicSlotNames',
-      dynamicSlotNames
-    )
 
     // 5. 删除、编辑、新建操作
     const handleDeleteClick = (id: number) => {
-      console.log(
-        '🚀 ~ file: page-content.vue ~ line 197 ~ handleDeleteClick ~ id',
-        id
-      )
       store.dispatch('system/deletePageDataItemAction', {
         pageName: props.pageName,
         id

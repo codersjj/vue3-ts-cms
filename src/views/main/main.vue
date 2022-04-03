@@ -34,7 +34,6 @@ export default defineComponent({
   setup() {
     const chartResizeFns = ref<any>([])
     eventBus.on('chartResize', (resize: any) => {
-      console.log('🚀 ~ file: main.vue ~ line 37 ~ eventBus ~ resize', resize)
       chartResizeFns.value.push(resize)
     })
 

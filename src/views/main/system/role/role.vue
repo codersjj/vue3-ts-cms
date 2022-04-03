@@ -72,10 +72,6 @@ export default defineComponent({
     const editCallback = (pageModalRef: any, item: any) => {
       const leafKeys = mapMenuToLeafKeys(item.menuList)
       nextTick(() => {
-        console.log(
-          '🚀 ~ file: role.vue ~ line 85 ~ editCallback ~ nextTick ~ elTreeRef.value',
-          elTreeRef.value
-        )
         elTreeRef.value?.setCheckedKeys(leafKeys)
       })
     }
@@ -87,8 +83,6 @@ export default defineComponent({
 
     const otherInfo = ref({})
     const handleCheck = (obj1: any, obj2: any) => {
-      console.log('obj1:', obj1)
-      console.log('obj2:', obj2)
       const { checkedKeys, halfCheckedKeys } = obj2
       const menuKeyList = [...checkedKeys, ...halfCheckedKeys]
       // 注意：这里的字段（menuList）需和后端对应
