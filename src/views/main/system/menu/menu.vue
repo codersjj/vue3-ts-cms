@@ -23,7 +23,7 @@ import PageContent from '@/components/page-content'
 import { searchFormConfig } from './config/search.config'
 import { contentTableConfig } from './config/content.config'
 
-import { usePageSearch } from '@/hooks/usePageSearch'
+import { usePageSearch } from '@/composables/usePageSearch'
 
 export default defineComponent({
   name: 'jj-menu',

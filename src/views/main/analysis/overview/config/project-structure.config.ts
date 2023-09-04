@@ -109,7 +109,7 @@ export const projectStructure = `
 |   |   |-- register-element-plus-icons.ts
 |   |   |-- register-element-plus.ts
 |   |   |-- register-properties.ts
-|   |-- hooks
+|   |-- composables
 |   |   |-- usePageModal.ts
 |   |   |-- usePageSearch.ts
 |   |   |-- usePermission.ts

@@ -54,8 +54,8 @@ import { searchFormConfig } from './config/search.config'
 import { contentTableConfig } from './config/content.config'
 import { modalFormConfig } from './config/modal.config'
 
-import { usePageSearch } from '@/hooks/usePageSearch'
-import { usePageModal } from '@/hooks/usePageModal'
+import { usePageSearch } from '@/composables/usePageSearch'
+import { usePageModal } from '@/composables/usePageModal'
 
 export default defineComponent({
   name: 'role',

@@ -96,7 +96,7 @@
 import { defineComponent, computed, ref, watch } from 'vue'
 import { useStore } from '@/store'
 import JjTable from '@/base-ui/table'
-import { usePermission } from '@/hooks/usePermission'
+import { usePermission } from '@/composables/usePermission'
 
 export default defineComponent({
   props: {
